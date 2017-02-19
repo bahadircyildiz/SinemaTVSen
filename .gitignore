@@ -45,3 +45,6 @@ plugins/
 
 # Bower Ignore
 www/lib
+
+# Dist ignore
+www/dist
