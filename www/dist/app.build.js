@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/dist/";
+/******/ 	__webpack_require__.p = "www/dist/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 6);
@@ -60558,18 +60558,23 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout) {
     // Form data for the login modal
     $scope.loginData = {};
 
-    var navIcons = document.getElementsByClassName('ion-navicon');
-    for (var i = 0; i < navIcons.length; i++) {
+    $scope.MenuObj = { 
+        dashboard: "Yayın Akışı",
+        aidat: "Aidat Ödemeleri"
+    }
+
+    var navIcons = document.getElementsByClassName('ion-navicon') ? document.getElementsByClassName('ion-navicon') : false;
+    if(navIcons) for (var i = 0; i < navIcons.length; i++) {
         navIcons.addEventListener('click', function () {
             this.classList.toggle('active');
         });
-    }
+    } 
 
-    var fab = document.getElementById('fab');
-    fab.addEventListener('click', function () {
-        //location.href = 'https://twitter.com/satish_vr2011';
-        window.open('https://twitter.com/satish_vr2011', '_blank');
-    });
+    // var fab = document.getElementById('fab');
+    // fab.addEventListener('click', function () {
+    //     //location.href = 'https://twitter.com/satish_vr2011';
+    //     window.open('https://twitter.com/satish_vr2011', '_blank');
+    // });
 
     // .fromTemplate() method
     var template = '<ion-popover-view>' +

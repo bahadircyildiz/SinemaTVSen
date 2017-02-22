@@ -32,7 +32,7 @@ gulp.task('watch', ['sass'], function() {
   gulp.watch(paths.sass, ['sass']);
 });
 
-gulp.task('install', ['git-check'], function() {
+gulp.task('install', ['git-check', 'webpack'], function() {
   return bower.commands.install()
     .on('log', function(data) {
       gutil.log('bower', gutil.colors.cyan(data.id), data.message);
@@ -70,7 +70,7 @@ gulp.task("webpack-dev-server", function(callback) {
 
     new WebpackDevServer(compiler, {
         // server and middleware options
-    }).listen(8100, "localhost", function(err) {
+    }).listen(8080, "localhost", function(err) {
         if(err) throw new gutil.PluginError("webpack-dev-server", err);
         // Server listening
         gutil.log("[webpack-dev-server]", "http://localhost:8080/webpack-dev-server/index.html");
