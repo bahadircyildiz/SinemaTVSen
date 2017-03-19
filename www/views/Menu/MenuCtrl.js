@@ -4,7 +4,10 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout) {
 
     $scope.MenuObj = { 
         dashboard: "Yayın Akışı",
-        aidat: "Aidat Ödemeleri"
+        aidat: "Aidat Ödemeleri",
+        excelparser: "Excel Parser",
+        login: "Login",
+        sikayet: "Sikayet Kutusu"
     }
 
     var navIcons = document.getElementsByClassName('ion-navicon') ? document.getElementsByClassName('ion-navicon') : false;
@@ -23,10 +26,10 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout) {
     // .fromTemplate() method
     var template = '<ion-popover-view>' +
                     '   <ion-header-bar>' +
-                    '       <h1 class="title">My Popover Title</h1>' +
+                    '       <h1 class="title">SinemaTVSen Beta</h1>' +
                     '   </ion-header-bar>' +
                     '   <ion-content class="padding">' +
-                    '       My Popover Contents' +
+                    '       Deneme Uygulamasi' +
                     '   </ion-content>' +
                     '</ion-popover-view>';
 

@@ -22,4 +22,6 @@ app.run(function ($ionicPlatform) {
     });
 })
 
-app.config(require("./app.routes.js"));
+require("./app.routes.js")(app);
+
+require("./services.js")(app);

@@ -1,0 +1,23 @@
+<ion-view view-title="Dilek ve Sikayetleriniz">
+    <ion-content class="im-wrapper">
+        <div class="list">
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Konu</span>
+                <input type="number" ng-model="uye_no" placeholder="Numara Girin">
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Icerik</span>
+                <input type="number" ng-model="uye_no" placeholder="Numara Girin">
+            </label>
+            <br />
+            <button class="button button-block button-calm ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="send_sikayet()">
+                Gonder
+            </button>
+        </div>
+        <div class="row" ng-repeat="l in aidatList">
+            <div class="col">{{l.aidat_yili}}</div>
+            <div class="col">{{l.aidat_ayi}}</div>
+            <div class="col">Odenmedi</div>
+        </div>
+    </ion-content>
+</ion-view>

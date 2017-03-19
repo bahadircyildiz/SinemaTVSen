@@ -1,6 +1,6 @@
 <ion-side-menus enable-menu-with-back-views="false">
     <ion-side-menu-content>
-        <ion-nav-bar class="bar-assertive">
+        <ion-nav-bar class="bar-positive">
             <ion-nav-back-button class="no-text">
             </ion-nav-back-button>
             <ion-nav-buttons side="left">
@@ -16,25 +16,13 @@
         <ion-header-bar class="expanded">
             <img src="img/logo.png" class="avatar motion spin fade">
             <div class="menu-bottom">
-                Ionic Material API
+                SinemaTVSen beta
             </div>
         </ion-header-bar>
         <ion-content class="stable-bg has-expanded-header">
             <ion-list>
                 <ion-item nav-clear menu-close href="#/app/{{link}}" ng-repeat="(link, desc) in MenuObj">
                     {{desc}}
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/app/extensions">
-                    Extensions
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/app/lists">
-                    Motion Lists
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/app/motion">
-                    Motion Elements
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/app/ink">
-                    Ink
                 </ion-item>
             </ion-list>
         </ion-content>

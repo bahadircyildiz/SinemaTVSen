@@ -211,3 +211,15 @@ p {
 .platform-android .popover{
 margin-top:10px;
 }
+
+.avia_content{
+    height:250px;
+    width:100%; 
+    /*height:auto;*/
+    overflow:hidden;
+}
+
+/*.avia_content ion-slides{*/
+/*    display:flex;*/
+/*    flex-direction: row;*/
+/*}*/

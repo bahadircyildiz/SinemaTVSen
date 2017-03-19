@@ -1,0 +1,42 @@
+<ion-view view-title="Excel Parser">
+    <ion-content class="im-wrapper">
+        <form ng-submit="sendFile($event)">
+            <input type="file" name="spreadsheet" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <input type="submit" value="Gonder">
+        </form>
+        <div ng-if="results != null">
+            <h2>Kaydedilen Kullanicilar</h2>
+            <ion-list>
+                <ion-item ng-repeat="res in results.InsertedUsers">
+                    <div class="row" ng-if="$index == 0"> 
+                        <div class="col" ng-repeat="(key, val) in res"> {{key}} </div>
+                    </div>
+                    <div class="row"> 
+                        <div class="col" ng-repeat="(key, val) in res"> {{val}} </div>
+                    </div>
+                </ion-item>
+            </ion-list>
+            <h2>Kaydedilen Odemeler</h2>
+            <ion-list>
+                <ion-item>
+                    <div class="row"> 
+                        <div class="col"> Uye No </div>
+                        <div class="col"> Odeme Tipi </div>
+                        <div class="col"> Aidat Yili </div>
+                        <div class="col"> Aidat Ayi </div>
+                        <div class="col"> Odendigi Ay </div>
+                    </div>
+                </ion-item>
+                <ion-item ng-repeat="res in results.InsertedPayments">
+                    <div class="row"> 
+                        <div class="col"> {{val.uye_no}} </div>
+                        <div class="col"> {{val.odeme_tipi}} </div>
+                        <div class="col"> {{val.aidat_yili}} </div>
+                        <div class="col"> {{val.aidat_ayi}} </div>
+                        <div class="col"> {{val.odendigi_ay}} </div>
+                    </div>
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-content>
+</ion-view>
