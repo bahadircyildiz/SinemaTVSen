@@ -1,15 +1,36 @@
-module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout) {
+module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicLoading, $timeout, AuthService) {
     // Form data for the login modal
-    $scope.loginData = {};
 
-    $scope.MenuObj = { 
-        dashboard: "Yayın Akışı",
-        aidat: "Aidat Ödemeleri",
-        excelparser: "Excel Parser",
-        login: "Login",
-        sikayet: "Sikayet Kutusu"
+    $scope.loadingShow = function(text = "<ion-spinner></ion-spinner>") {
+        $ionicLoading.show({
+            template: text
+        });
+    };
+    $scope.loadingHide = function() {
+        $ionicLoading.hide();
+    };
+        
+    var MenuObj = { 
+        dashboard: "Yayın Akışı"
     }
-
+    
+    $scope.AuthService = AuthService;
+    
+    $scope.refreshStatus = function(){
+        if(AuthService.isLoggedIn()){
+            delete MenuObj.login;
+            MenuObj.loggedin = AuthService.name();  
+        } 
+        else {
+            delete MenuObj.loggedin;
+            MenuObj.login = "Giriş";   
+        }
+        
+        $scope.MenuObj = MenuObj;   
+    }
+    
+    $scope.refreshStatus();
+    
     var navIcons = document.getElementsByClassName('ion-navicon') ? document.getElementsByClassName('ion-navicon') : false;
     if(navIcons) for (var i = 0; i < navIcons.length; i++) {
         navIcons.addEventListener('click', function () {

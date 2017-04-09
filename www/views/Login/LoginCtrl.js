@@ -1,4 +1,4 @@
-module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
+module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, $state, API) {
     // Form data for the login modal
     $scope.loginData = {};
 
@@ -36,29 +36,16 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
         $scope.popover.remove();
     });
     $scope.uye_no = 200;
-    $scope.smsSent = false;
-    
+    $scope.formData = {};
     $scope.login = function(){
         var endpoint, params, after;
-        if($scope.smsSent){
-            endpoint = 'MobilAidatHandler/send_password';
-            params = $scope.password;
-            after = function(result){
-                    
-            };
-        } else{
-            endpoint = 'MobilAidatHandler/send_message'; 
-            params = { gsm: $scope.gsm },
-            after = function(result){
-                $scope.result = result.data.content;
-                $scope.smsSent = true;
-            };
-        }
+        endpoint = 'SMSHandler/send_auth_key';
+        params = $scope.formData,
         API.request(endpoint, params).then(
             function(onSuccess){
-                after(onSuccess);    
+                $state.go('app.verify', {secret: onSuccess.data.secret, gsm: $scope.formData.gsm});
             }, function(onError){
-                
+                console.log(onError);
             })
     }
 

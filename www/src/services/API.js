@@ -1,7 +1,7 @@
 var API = function(app){
-    app.factory('API', ['$http', '$ionicPopup', '$q', function($http, $ionicPopup, $q){
+    app.factory('API', ['$http', '$ionicPopup', '$q','$window', function($http, $ionicPopup, $q, $window){
         return {
-            home: "http://stvsen.bahadircyildiz.com/index.php/",
+            home: "https://backend.sinematvsendikasi.org/",
             // geocoding: "http://maps.googleapis.com/maps/api/geocode/json",
             wphome: 'https://www.sinematvsendikasi.org/',
             sendExcel: function(file){
@@ -18,6 +18,12 @@ var API = function(app){
                     }
                 }
                 return deferred.promise;
+            },
+            saveSecret: function(secret){
+                $window.localStorage.setItem("loginsecret", secret);
+            },
+            getSecret: function(){
+                return $window.localStorage.getItem("loginsecret");
             },
             wpRequest: function(endpoint){
                 var methodList = {

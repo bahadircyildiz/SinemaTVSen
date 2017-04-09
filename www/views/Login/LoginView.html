@@ -1,23 +1,13 @@
 <ion-view view-title="Uye Girisi">
     <ion-content class="im-wrapper">
-        <div class="list" ng-if="smsSent == false">
+        <div class="list">
             <label class="item item-input item-floating-label">
                 <span class="input-label">Gsm numarasi</span>
-                <input type="tel" ng-model="gsm" placeholder="Numara Girin">
+                <input type="tel" ng-model="formData.gsm" placeholder="Numara Girin">
             </label>
             <br />
-            <button class="button button-block button-calm ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="login()">
-                Gonder
-            </button>
-        </div>
-        <div class="list" ng-if="smsSent == true">
-            <label class="item item-input item-floating-label">
-                <span class="input-label">Gsm numarasi</span>
-                <input type="tel" ng-model="gsm" placeholder="Numara Girin">
-            </label>
-            <br />
-            <button class="button button-block button-calm ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="login()">
-                Gonder
+            <button class="button button-block button-positive ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="login()">
+                Gönder
             </button>
         </div>
         <div class="row">

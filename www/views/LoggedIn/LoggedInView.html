@@ -1,0 +1,21 @@
+<ion-view view-title="{{name}}">
+    <ion-content class="im-wrapper">
+        <div class="list">
+            <div class="item item-divider">
+                Üye İşlemleri
+            </div>
+            <a class="item" ui-sref="app.userinfo">
+                Bilgiler
+            </a>
+            <a class="item" ui-sref="app.aidat">
+                Ödenmeyen Aidatlar
+            </a>
+            <a class="item" ui-sref="app.sikayet">
+                Şikayet Kutusu
+            </a>
+            <div class="item item-divider" ng-click="logout()">
+                Çıkış
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

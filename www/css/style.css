@@ -1,6 +1,24 @@
 /* Empty. Add your own CSS if you like */
 /* Utilities */
 
+
+.bar.bar-positive{
+     background-color: #283891 !important;
+}
+
+.toggle.toggle-positive input:checked + .track{
+     border-color: #283891 !important;
+     background-color: #283891 !important;
+}
+
+.button-positive{
+     background-color: #283891 !important;
+}
+
+.tabs-positive{
+     background-color: #283891 !important;
+}
+
 .link {
     color: #116262;
     font-weight: bold;
@@ -51,8 +69,8 @@ p {
 /* Menu */
 
 .menu .bar.bar-header.expanded {
-    background-image: url('../img/material-graphite.jpg');
-    background-size: 120%;
+    background-image: url('../img/stvsen.jpg');
+    background-size: 100%;
     background-position: 0%;
     transition: all .5s ease-in-out;
 }
@@ -209,7 +227,7 @@ p {
     top: 16px !important;
 }
 .platform-android .popover{
-margin-top:10px;
+    margin-top:10px;
 }
 
 .avia_content{
@@ -218,6 +236,8 @@ margin-top:10px;
     /*height:auto;*/
     overflow:hidden;
 }
+
+
 
 /*.avia_content ion-slides{*/
 /*    display:flex;*/

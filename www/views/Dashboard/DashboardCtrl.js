@@ -1,6 +1,5 @@
-module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API, $sce) {
+module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API, $sce) {
     // Form data for the login modal
-    $scope.loginData = {};
 
     // var navIcons = document.getElementsByClassName('ion-navicon');
     // for (var i = 0; i < navIcons.length; i++) {
@@ -66,14 +65,20 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicSlideBoxDel
         $ionicSideMenuDelegate.canDragContent(true);
     }
     
+    
     API.wpRequest('categories').then(function onSuccess(result){
-        console.log(result);
+        var categories = {};
+        result.data.forEach(function(val,index){
+            categories[val.id] = val.name;
+        })
+        $scope.categories = categories;
+
     }, function onError(err){
         console.log(err);
     })
     
     
-    
+    $scope.$parent.loadingShow();
     API.wpRequest('posts').then(function onSuccess(result){
         // $scope.dashboard = onSuccess;
         result.data.forEach(function(val,index){
@@ -99,6 +104,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicSlideBoxDel
             }
         })
         $scope.dashboard = result.data;
+        $scope.$parent.loadingHide();
     }, function onError(err){
         console.log(err);    
     })

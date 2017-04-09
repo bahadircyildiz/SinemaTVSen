@@ -1,6 +1,6 @@
-module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
+module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicPopup, $state, API) {
     // Form data for the login modal
-    $scope.loginData = {};
+    $scope.$parent.AuthService.redirectControl();
 
     // var navIcons = document.getElementsByClassName('ion-navicon');
     // for (var i = 0; i < navIcons.length; i++) {
@@ -35,14 +35,26 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
     $scope.$on('$destroy', function () {
         $scope.popover.remove();
     });
-    $scope.uye_no = 200;
+    
+    
+    $scope.formData = {
+        uye_no: $scope.$parent.AuthService.currentUser.uye_no,
+        gizli: false
+    };
+    
+    $scope.sikayetList = [{name: "Hastalık"},{ name: "Fazla Mesai"}];
     
     $scope.send_sikayet= function(){
         console.log('Submitted! ' + $scope.uye_no);
-        API.request('ExcelHandler/get_debt', { uye_no: $scope.uye_no }).then(
+        API.request('UserHandler/send_sikayet', $scope.formData).then(
             function(onSuccess){
                 if(onSuccess.status == 200){
-                    $scope.aidatList = onSuccess.data.content;
+                    $scope.result = onSuccess.data;
+                    $ionicPopup.alert({
+                        title: "Bilgi",
+                        template: "Şikayetiniz Gönderilmiştir."
+                    })
+                    $state.go("app.loggedin");
                 }    
             }, function(onError){
                 

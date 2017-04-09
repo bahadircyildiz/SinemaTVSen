@@ -11,6 +11,7 @@ module.exports = function(app){
 
     .state('app.dashboard', {
         url: '/dashboard',
+        cache : true,
         views: {
             'menuContent': {
                 templateUrl: 'views/Dashboard/DashboardView.html',
@@ -19,12 +20,52 @@ module.exports = function(app){
         }
     })
     
-    .state('app.excelparser', {
-        url: '/excelparser',
+    // .state('app.excelparser', {
+    //     url: '/excelparser',
+    //     views: {
+    //         'menuContent': {
+    //             templateUrl: 'views/ExcelParser/ExcelParserView.html',
+    //             controller: require("../views/ExcelParser/ExcelParserCtrl.js")
+    //         }
+    //     }
+    // })
+    .state('app.login', {
+        url: '/login',
         views: {
             'menuContent': {
-                templateUrl: 'views/ExcelParser/ExcelParserView.html',
-                controller: require("../views/ExcelParser/ExcelParserCtrl.js")
+                templateUrl: 'views/Login/LoginView.html',
+                controller: require("../views/Login/LoginCtrl.js")
+            }
+        }
+    })
+    .state('app.verify', {
+        url: '/verify',
+        views: {
+            'menuContent': {
+                templateUrl: 'views/Verify/VerifyView.html',
+                controller: require("../views/Verify/VerifyCtrl.js")
+            }
+        },
+        params:{
+            secret: null,
+            gsm: null
+        }
+    })
+    .state('app.loggedin', {
+        url: '/loggedin',
+        views: {
+            'menuContent': {
+                templateUrl: 'views/LoggedIn/LoggedInView.html',
+                controller: require("../views/LoggedIn/LoggedInCtrl.js")
+            }
+        }
+    })
+    .state('app.userinfo', {
+        url: '/userinfo',
+        views: {
+            'menuContent': {
+                templateUrl: 'views/UserInfo/UserInfoView.html',
+                controller: require("../views/UserInfo/UserInfoCtrl.js")
             }
         }
     })
@@ -37,15 +78,6 @@ module.exports = function(app){
             }
         }
     })
-    .state('app.login', {
-        url: '/login',
-        views: {
-            'menuContent': {
-                templateUrl: 'views/Login/LoginView.html',
-                controller: require("../views/Login/LoginCtrl.js")
-            }
-        }
-    })
     .state('app.sikayet', {
         url: '/sikayet',
         views: {
@@ -55,45 +87,7 @@ module.exports = function(app){
             }
         }
     })
-    // .state('app.ink', {
-    //     url: '/ink',
-    //     views: {
-    //         'menuContent': {
-    //             templateUrl: 'templates/ink.html',
-    //             controller: 'InkCtrl'
-    //         }
-    //     }
-    // })
-
-    // .state('app.motion', {
-    //     url: '/motion',
-    //     views: {
-    //         'menuContent': {
-    //             templateUrl: 'templates/motion.html',
-    //             controller: 'MotionCtrl'
-    //         }
-    //     }
-    // })
-
-    // .state('app.components', {
-    //     url: '/components',
-    //     views: {
-    //         'menuContent': {
-    //             templateUrl: 'templates/components.html',
-    //             controller: 'ComponentsCtrl'
-    //         }
-    //     }
-    // })
-
-    // .state('app.extensions', {
-    //     url: '/extensions',
-    //     views: {
-    //         'menuContent': {
-    //             templateUrl: 'templates/extensions.html',
-    //             controller: 'ExtensionsCtrl'
-    //         }
-    //     }
-    // })
+    
     ;
 
     // if none of the above states are matched, use this as the fallback

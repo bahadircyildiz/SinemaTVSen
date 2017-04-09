@@ -1,19 +1,7 @@
 module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
     // Form data for the login modal
-    $scope.loginData = {};
 
-    // var navIcons = document.getElementsByClassName('ion-navicon');
-    // for (var i = 0; i < navIcons.length; i++) {
-    //     navIcons.addEventListener('click', function () {
-    //         this.classList.toggle('active');
-    //     });
-    // }
-
-    // var fab = document.getElementById('fab');
-    // fab.addEventListener('click', function () {
-    //     //location.href = 'https://twitter.com/satish_vr2011';
-    //     window.open('https://twitter.com/satish_vr2011', '_blank');
-    // });
+    $scope.$parent.AuthService.redirectControl();
 
     // .fromTemplate() method
     var template = '<ion-popover-view>' +
@@ -35,20 +23,22 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
     $scope.$on('$destroy', function () {
         $scope.popover.remove();
     });
-    $scope.uye_no = 200;
+    var uye_no = $scope.$parent.AuthService.currentUser.uye_no;
     
     $scope.get_debt = function(){
-        console.log('Submitted! ' + $scope.uye_no);
-        API.request('ExcelHandler/get_debt', { uye_no: $scope.uye_no }).then(
+        console.log('Submitted! ' + uye_no);
+        API.request('UserHandler/get_debt', { uye_no: uye_no }).then(
             function(onSuccess){
-                if(onSuccess.status == 200){
-                    $scope.aidatList = onSuccess.data.content;
+                if(onSuccess){
+                    $scope.aidatList = onSuccess.data;
                 }    
             }, function(onError){
                 
             }
         )
     }
+    
+    $scope.get_debt();
 
     
 };
