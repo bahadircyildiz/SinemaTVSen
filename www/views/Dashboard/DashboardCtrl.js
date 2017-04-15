@@ -87,17 +87,26 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
             var avia_content = [];
             // var parser = new DOMParser(), doc = parser.parseFromString(val.content.rendered, "text/xml")
             var images = doc.querySelectorAll('.aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img');
-            if(images.length > 0){
-                var tmp = document.createElement('div'), textPart = doc.querySelectorAll('.av_textblock_section, .av-special-heading');
-                // console.log(textPart, typeof textPart);
-                textPart.forEach(function(elem, index){
-                    tmp.appendChild(elem);
-                })
-                val.content.rendered = tmp.innerHTML;
-                images.forEach(function(elem, index){
-                    avia_content.push(elem.attributes.src.value);
-                });
-                if (avia_content.length != 0) val.avia_content = avia_content;
+            var links = doc.querySelectorAll('a');
+            if(images.length > 0 || links.length > 0){
+                if(images.length > 0){
+                    var tmp = document.createElement('div'), textPart = doc.querySelectorAll('.av_textblock_section, .av-special-heading');
+                    // console.log(textPart, typeof textPart);
+                    textPart.forEach(function(elem, index){
+                        tmp.appendChild(elem);
+                    })
+                    val.content.rendered = tmp.innerHTML;
+                    images.forEach(function(elem, index){
+                        avia_content.push(elem.attributes.src.value);
+                    });
+                    if (avia_content.length != 0) val.avia_content = avia_content;
+                }
+                if(links.length > 0){
+                    links.forEach(function(element){
+                        element.setAttribute('ng-click', "window.open("+element.getAttribute('href')+", _system);");
+                        element.removeAttribute('href');
+                    })
+                }
             } else{
                 val.content.rendered = $sce.trustAsHtml(val.content.rendered);
                 val.title.rendered = $sce.trustAsHtml(val.title.rendered);    
