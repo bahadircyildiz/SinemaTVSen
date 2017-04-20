@@ -1,4 +1,4 @@
-module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API, $sce) {
+module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API) {
     // Form data for the login modal
 
     // var navIcons = document.getElementsByClassName('ion-navicon');
@@ -82,41 +82,7 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
     API.wpRequest('posts').then(function onSuccess(result){
         // $scope.dashboard = onSuccess;
         result.data.forEach(function(val,index){
-            var doc = document.createElement('div');
-            doc.innerHTML = val.content.rendered;
-            
-            //Seperating Texts
-            // var tmp = document.createElement('div'); 
-            // var textPart = doc.querySelectorAll('.av_textblock_section, .av-special-heading');
-            // textPart.forEach(function(elem, index){
-            //     tmp.appendChild(elem);
-            // })
-            
-            //Seperating Images
-            var images = doc.querySelectorAll('.aviaccordion-spacer, .aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img');
-            var avia_content = [];
-            images.forEach(function(elem, index){
-                if(elem.attributes.src) avia_content.push(elem.attributes.src.value);
-            });
-            if (avia_content.length != 0) {
-                val.avia_content = avia_content;
-                for (var j = images.length-1; j >= 0; j--) {
-                    if (images[j].parentNode) {
-                        images[j].parentNode.removeChild(images[j]);
-                    }
-                }
-            }
-            
-            //Modifying Links
-            var links = doc.getElementsByTagName('a');
-            for(var x=0; x < links.length; x++){
-                var href = links[x].getAttribute('href');
-                links[x].setAttribute('onclick', "window.open('"+href+"', '_system');");
-                links[x].removeAttribute('href');
-            }
-            
-            val.content.rendered = $sce.trustAsHtml(doc.innerHTML);
-            val.title.rendered = $sce.trustAsHtml(val.title.rendered);
+            API.wpBeautifyContent(val);
         })
         $scope.dashboard = result.data;
         $scope.$parent.loadingHide();

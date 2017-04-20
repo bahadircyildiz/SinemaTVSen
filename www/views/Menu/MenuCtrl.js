@@ -1,4 +1,4 @@
-module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicLoading, $timeout, AuthService) {
+module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicLoading, $timeout, $state, AuthService) {
     // Form data for the login modal
 
     $scope.loadingShow = function(text = "<ion-spinner></ion-spinner>") {
@@ -9,24 +9,41 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicLoading, $t
     $scope.loadingHide = function() {
         $ionicLoading.hide();
     };
-        
-    var MenuObj = { 
-        dashboard: "Yayın Akışı"
-    }
+    
+    var menuGroups = [
+        { name: "Yayın Akışı", link: "dashboard"},
+        { name: "Deneme Grup", items: [
+            { name: "Grup Alti 1", link: "dashboard" },
+            { name: "Grup Alti 2", link: "dashboard" }
+            ] }
+        ];
+    
+    var loginMenuGroup = { name:"Giriş", link: "login" };
+    
+    $scope.toggleGroup = function(group) {
+        if ($scope.isGroupShown(group)) {
+            $scope.shownGroup = null;
+        } else {
+            $scope.shownGroup = group;
+        }   
+    };
+    
+    $scope.isGroupShown = function(group) {
+        return $scope.shownGroup === group;
+    };
     
     $scope.AuthService = AuthService;
     
     $scope.refreshStatus = function(){
+        if(menuGroups.indexOf(loginMenuGroup) >= 0) menuGroups.splice(menuGroups.indexOf(loginMenuGroup), 1);
         if(AuthService.isLoggedIn()){
-            delete MenuObj.login;
-            MenuObj.loggedin = AuthService.name();  
+            loginMenuGroup = { name: AuthService.name(), link: "loggedin"};
         } 
         else {
-            delete MenuObj.loggedin;
-            MenuObj.login = "Giriş";   
+            loginMenuGroup = { name:"Giriş", link: "login" };
         }
-        
-        $scope.MenuObj = MenuObj;   
+        menuGroups.push(loginMenuGroup);
+        $scope.menuGroups = menuGroups;   
     }
     
     $scope.refreshStatus();
@@ -37,6 +54,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicLoading, $t
             this.classList.toggle('active');
         });
     } 
+    
 
     // var fab = document.getElementById('fab');
     // fab.addEventListener('click', function () {

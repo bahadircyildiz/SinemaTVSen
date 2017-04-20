@@ -1,5 +1,5 @@
 var API = function(app){
-    app.factory('API', ['$http', '$ionicPopup', '$q','$window', function($http, $ionicPopup, $q, $window){
+    app.factory('API', ['$http', '$ionicPopup', '$q','$window','$sce', function($http, $ionicPopup, $q, $window, $sce){
         return {
             home: "https://backend.sinematvsendikasi.org/",
             // geocoding: "http://maps.googleapis.com/maps/api/geocode/json",
@@ -35,6 +35,36 @@ var API = function(app){
                     method: methodList[endpoint] 
                 })
             },
+            wpBeautifyContent: function(val){
+                var doc = document.createElement('div');
+                doc.innerHTML = val.content.rendered;
+                
+                //Seperating Images
+                var images = doc.querySelectorAll('.aviaccordion-spacer, .aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img');
+                var avia_content = [];
+                images.forEach(function(elem, index){
+                    if(elem.attributes.src) avia_content.push(elem.attributes.src.value);
+                });
+                if (avia_content.length != 0) {
+                    val.avia_content = avia_content;
+                    for (var j = images.length-1; j >= 0; j--) {
+                        if (images[j].parentNode) {
+                            images[j].parentNode.removeChild(images[j]);
+                        }
+                    }
+                }
+                
+                //Modifying Links
+                var links = doc.getElementsByTagName('a');
+                for(var x=0; x < links.length; x++){
+                    var href = links[x].getAttribute('href');
+                    links[x].setAttribute('onclick', "window.open('"+href+"', '_system');");
+                    links[x].removeAttribute('href');
+                }
+                
+                val.content.rendered = $sce.trustAsHtml(doc.innerHTML);
+                val.title.rendered = $sce.trustAsHtml(val.title.rendered);
+            },
             request: function (endpoint, params) {
                 return $http({
                     url:this.home+endpoint, 
@@ -54,14 +84,10 @@ var API = function(app){
             },
             responseAlert : function(res){
                 return $ionicPopup.alert({
-                    title: "Error Code: " + (res.status ? res.status + " " + res.statusText : "0"), template: JSON.stringify(res)
+                    title: "Hata Kodu: "+res.status,
+                    template: res.statusText
                 })
-            },
-            statusAlert: function(res){
-                return $ionicPopup.alert({
-                    title: "Error Code: " + (res.data.Footer.ErrorCode ? res.data.Footer.ErrorCode : "0"), template: res.data.Footer.ErrorMessage
-                })
-            },
+            }
         }
     }])
 }

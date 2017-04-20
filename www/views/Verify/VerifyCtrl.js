@@ -51,7 +51,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $stateParams, $io
                 });
                 $state.go("app.loggedin", {}, {location: "replace"});
             }, function(onError){
-                console.log(onError);
+                API.responseAlert(onError);
             })
     }
 

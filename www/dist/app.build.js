@@ -68768,7 +68768,7 @@ IonicModule
 /***/ (function(module, exports) {
 
 var API = function(app){
-    app.factory('API', ['$http', '$ionicPopup', '$q','$window', function($http, $ionicPopup, $q, $window){
+    app.factory('API', ['$http', '$ionicPopup', '$q','$window','$sce', function($http, $ionicPopup, $q, $window, $sce){
         return {
             home: "https://backend.sinematvsendikasi.org/",
             // geocoding: "http://maps.googleapis.com/maps/api/geocode/json",
@@ -68804,6 +68804,36 @@ var API = function(app){
                     method: methodList[endpoint] 
                 })
             },
+            wpBeautifyContent: function(val){
+                var doc = document.createElement('div');
+                doc.innerHTML = val.content.rendered;
+                
+                //Seperating Images
+                var images = doc.querySelectorAll('.aviaccordion-spacer, .aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img');
+                var avia_content = [];
+                images.forEach(function(elem, index){
+                    if(elem.attributes.src) avia_content.push(elem.attributes.src.value);
+                });
+                if (avia_content.length != 0) {
+                    val.avia_content = avia_content;
+                    for (var j = images.length-1; j >= 0; j--) {
+                        if (images[j].parentNode) {
+                            images[j].parentNode.removeChild(images[j]);
+                        }
+                    }
+                }
+                
+                //Modifying Links
+                var links = doc.getElementsByTagName('a');
+                for(var x=0; x < links.length; x++){
+                    var href = links[x].getAttribute('href');
+                    links[x].setAttribute('onclick', "window.open('"+href+"', '_system');");
+                    links[x].removeAttribute('href');
+                }
+                
+                val.content.rendered = $sce.trustAsHtml(doc.innerHTML);
+                val.title.rendered = $sce.trustAsHtml(val.title.rendered);
+            },
             request: function (endpoint, params) {
                 return $http({
                     url:this.home+endpoint, 
@@ -68823,14 +68853,10 @@ var API = function(app){
             },
             responseAlert : function(res){
                 return $ionicPopup.alert({
-                    title: "Error Code: " + (res.status ? res.status + " " + res.statusText : "0"), template: JSON.stringify(res)
+                    title: "Hata Kodu: "+res.status,
+                    template: res.statusText
                 })
-            },
-            statusAlert: function(res){
-                return $ionicPopup.alert({
-                    title: "Error Code: " + (res.data.Footer.ErrorCode ? res.data.Footer.ErrorCode : "0"), template: res.data.Footer.ErrorMessage
-                })
-            },
+            }
         }
     }])
 }
@@ -68890,7 +68916,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
 /* 17 */
 /***/ (function(module, exports) {
 
-module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API, $sce) {
+module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API) {
     // Form data for the login modal
 
     // var navIcons = document.getElementsByClassName('ion-navicon');
@@ -68974,41 +69000,7 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
     API.wpRequest('posts').then(function onSuccess(result){
         // $scope.dashboard = onSuccess;
         result.data.forEach(function(val,index){
-            var doc = document.createElement('div');
-            doc.innerHTML = val.content.rendered;
-            
-            //Seperating Texts
-            // var tmp = document.createElement('div'); 
-            // var textPart = doc.querySelectorAll('.av_textblock_section, .av-special-heading');
-            // textPart.forEach(function(elem, index){
-            //     tmp.appendChild(elem);
-            // })
-            
-            //Seperating Images
-            var images = doc.querySelectorAll('.aviaccordion-spacer, .aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img');
-            var avia_content = [];
-            images.forEach(function(elem, index){
-                if(elem.attributes.src) avia_content.push(elem.attributes.src.value);
-            });
-            if (avia_content.length != 0) {
-                val.avia_content = avia_content;
-                for (var j = images.length-1; j >= 0; j--) {
-                    if (images[j].parentNode) {
-                        images[j].parentNode.removeChild(images[j]);
-                    }
-                }
-            }
-            
-            //Modifying Links
-            var links = doc.getElementsByTagName('a');
-            for(var x=0; x < links.length; x++){
-                var href = links[x].getAttribute('href');
-                links[x].setAttribute('onclick', "window.open('"+href+"', '_system');");
-                links[x].removeAttribute('href');
-            }
-            
-            val.content.rendered = $sce.trustAsHtml(doc.innerHTML);
-            val.title.rendered = $sce.trustAsHtml(val.title.rendered);
+            API.wpBeautifyContent(val);
         })
         $scope.dashboard = result.data;
         $scope.$parent.loadingHide();
@@ -69023,7 +69015,7 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicLoading, $timeout, AuthService) {
+module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicLoading, $timeout, $state, AuthService) {
     // Form data for the login modal
 
     $scope.loadingShow = function(text = "<ion-spinner></ion-spinner>") {
@@ -69034,24 +69026,41 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicLoading, $t
     $scope.loadingHide = function() {
         $ionicLoading.hide();
     };
-        
-    var MenuObj = { 
-        dashboard: "Yayın Akışı"
-    }
+    
+    var menuGroups = [
+        { name: "Yayın Akışı", link: "dashboard"},
+        { name: "Deneme Grup", items: [
+            { name: "Grup Alti 1", link: "dashboard" },
+            { name: "Grup Alti 2", link: "dashboard" }
+            ] }
+        ];
+    
+    var loginMenuGroup = { name:"Giriş", link: "login" };
+    
+    $scope.toggleGroup = function(group) {
+        if ($scope.isGroupShown(group)) {
+            $scope.shownGroup = null;
+        } else {
+            $scope.shownGroup = group;
+        }   
+    };
+    
+    $scope.isGroupShown = function(group) {
+        return $scope.shownGroup === group;
+    };
     
     $scope.AuthService = AuthService;
     
     $scope.refreshStatus = function(){
+        if(menuGroups.indexOf(loginMenuGroup) >= 0) menuGroups.splice(menuGroups.indexOf(loginMenuGroup), 1);
         if(AuthService.isLoggedIn()){
-            delete MenuObj.login;
-            MenuObj.loggedin = AuthService.name();  
+            loginMenuGroup = { name: AuthService.name(), link: "loggedin"};
         } 
         else {
-            delete MenuObj.loggedin;
-            MenuObj.login = "Giriş";   
+            loginMenuGroup = { name:"Giriş", link: "login" };
         }
-        
-        $scope.MenuObj = MenuObj;   
+        menuGroups.push(loginMenuGroup);
+        $scope.menuGroups = menuGroups;   
     }
     
     $scope.refreshStatus();
@@ -69062,6 +69071,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicLoading, $t
             this.classList.toggle('active');
         });
     } 
+    
 
     // var fab = document.getElementById('fab');
     // fab.addEventListener('click', function () {
@@ -69129,7 +69139,7 @@ __webpack_require__(6)(app);
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, $state, API) {
+module.exports = function ($scope, $ionicPopover, $timeout, $state, API) {
     // Form data for the login modal
     $scope.loginData = {};
 
@@ -69169,14 +69179,14 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, $state,
     $scope.uye_no = 200;
     $scope.formData = {};
     $scope.login = function(){
-        var endpoint, params, after;
+        var endpoint, params;
         endpoint = 'SMSHandler/send_auth_key';
         params = $scope.formData,
         API.request(endpoint, params).then(
             function(onSuccess){
                 $state.go('app.verify', {secret: onSuccess.data.secret, gsm: $scope.formData.gsm});
             }, function(onError){
-                console.log(onError);
+                API.responseAlert(onError);
             })
     }
 
@@ -69311,7 +69321,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $stateParams, $io
                 });
                 $state.go("app.loggedin", {}, {location: "replace"});
             }, function(onError){
-                console.log(onError);
+                API.responseAlert(onError);
             })
     }
 

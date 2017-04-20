@@ -1,4 +1,4 @@
-module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, $state, API) {
+module.exports = function ($scope, $ionicPopover, $timeout, $state, API) {
     // Form data for the login modal
     $scope.loginData = {};
 
@@ -38,14 +38,14 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, $state,
     $scope.uye_no = 200;
     $scope.formData = {};
     $scope.login = function(){
-        var endpoint, params, after;
+        var endpoint, params;
         endpoint = 'SMSHandler/send_auth_key';
         params = $scope.formData,
         API.request(endpoint, params).then(
             function(onSuccess){
                 $state.go('app.verify', {secret: onSuccess.data.secret, gsm: $scope.formData.gsm});
             }, function(onError){
-                console.log(onError);
+                API.responseAlert(onError);
             })
     }
 
