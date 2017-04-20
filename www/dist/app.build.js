@@ -68976,24 +68976,39 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
         result.data.forEach(function(val,index){
             var doc = document.createElement('div');
             doc.innerHTML = val.content.rendered;
+            
+            //Seperating Texts
+            // var tmp = document.createElement('div'); 
+            // var textPart = doc.querySelectorAll('.av_textblock_section, .av-special-heading');
+            // textPart.forEach(function(elem, index){
+            //     tmp.appendChild(elem);
+            // })
+            
+            //Seperating Images
+            var images = doc.querySelectorAll('.aviaccordion-spacer, .aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img');
             var avia_content = [];
-            // var parser = new DOMParser(), doc = parser.parseFromString(val.content.rendered, "text/xml")
-            var images = doc.querySelectorAll('.aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img');
-            if(images.length > 0){
-                var tmp = document.createElement('div'), textPart = doc.querySelectorAll('.av_textblock_section, .av-special-heading');
-                // console.log(textPart, typeof textPart);
-                textPart.forEach(function(elem, index){
-                    tmp.appendChild(elem);
-                })
-                val.content.rendered = tmp.innerHTML;
-                images.forEach(function(elem, index){
-                    avia_content.push(elem.attributes.src.value);
-                });
-                if (avia_content.length != 0) val.avia_content = avia_content;
-            } else{
-                val.content.rendered = $sce.trustAsHtml(val.content.rendered);
-                val.title.rendered = $sce.trustAsHtml(val.title.rendered);    
+            images.forEach(function(elem, index){
+                if(elem.attributes.src) avia_content.push(elem.attributes.src.value);
+            });
+            if (avia_content.length != 0) {
+                val.avia_content = avia_content;
+                for (var j = images.length-1; j >= 0; j--) {
+                    if (images[j].parentNode) {
+                        images[j].parentNode.removeChild(images[j]);
+                    }
+                }
             }
+            
+            //Modifying Links
+            var links = doc.getElementsByTagName('a');
+            for(var x=0; x < links.length; x++){
+                var href = links[x].getAttribute('href');
+                links[x].setAttribute('onclick', "window.open('"+href+"', '_system');");
+                links[x].removeAttribute('href');
+            }
+            
+            val.content.rendered = $sce.trustAsHtml(doc.innerHTML);
+            val.title.rendered = $sce.trustAsHtml(val.title.rendered);
         })
         $scope.dashboard = result.data;
         $scope.$parent.loadingHide();
@@ -102818,7 +102833,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
         $scope.popover.remove();
     });
     $scope.user = $scope.$parent.AuthService.currentUser;
-
+    
     
 };
 
