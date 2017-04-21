@@ -25,13 +25,14 @@ var API = function(app){
             getSecret: function(){
                 return $window.localStorage.getItem("loginsecret");
             },
-            wpRequest: function(endpoint){
+            wpRequest: function(endpoint, params = {id: ''}){
                 var methodList = {
                     posts: "GET",
-                    categories: "GET"
+                    categories: "GET",
+                    pages: "GET"
                 };
                 return $http({
-                    url: this.wphome+'wp-json/wp/v2/'+endpoint,
+                    url: this.wphome+'wp-json/wp/v2/'+endpoint+'/'+params.id,
                     method: methodList[endpoint] 
                 })
             },

@@ -19,16 +19,19 @@ module.exports = function(app){
             }
         }
     })
-    
-    // .state('app.excelparser', {
-    //     url: '/excelparser',
-    //     views: {
-    //         'menuContent': {
-    //             templateUrl: 'views/ExcelParser/ExcelParserView.html',
-    //             controller: require("../views/ExcelParser/ExcelParserCtrl.js")
-    //         }
-    //     }
-    // })
+    .state('app.descriptive', {
+        url: '/descriptive',
+        views: {
+            'menuContent': {
+                templateUrl: 'views/Descriptive/DescriptiveView.html',
+                controller: require("../views/Descriptive/DescriptiveCtrl.js")
+            }
+        },
+        params:{
+            endpoint: null,
+            id: null
+        }
+    })
     .state('app.login', {
         url: '/login',
         views: {

@@ -28,18 +28,14 @@
             <ion-list>
                 <div ng-repeat="group in menuGroups">
                     <ion-item class="item-stable"
-                            ng-attr-nav-clear="group.items ? undefined : ''"
-                            ng-attr-menu-close="group.items ? undefined : ''"
-                            ng-click="toggleGroup(group)"
-                            ng-class="{active: isGroupShown(group)}"
-                            href="#/app/{{group.link}}">
-                        {{group.name}}
-                        <i class="icon item-note" ng-if="group.items" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+                            ng-class="{active: isGroupShown(group)}">
+                        <span ng-click="goto(group)">{{group.name}}</span>
+                        <i class="icon item-note" ng-click="toggleGroup(group)" ng-if="group.items" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
                     </ion-item>
                     <ion-item nav-clear menu-close class="item-accordion"
                             ng-repeat="item in group.items"
                             ng-show="isGroupShown(group)"
-                            href="#/app/{{item.link}}">
+                            ng-click="goto(item)">
                         &nbsp;&nbsp;{{item.name}}
                     </ion-item>
                 </div>
