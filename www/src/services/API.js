@@ -59,7 +59,7 @@ var API = function(app){
                 var links = doc.getElementsByTagName('a');
                 for(var x=0; x < links.length; x++){
                     var href = links[x].getAttribute('href');
-                    links[x].setAttribute('onclick', "window.open('"+href+"', '_system');");
+                    links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes'); return false;");
                     links[x].removeAttribute('href');
                 }
                 
