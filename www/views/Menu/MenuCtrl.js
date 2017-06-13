@@ -30,14 +30,14 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
             { name: "Dizi Birimi", state: "app.descriptive", params: {endpoint: "pages", id:144} },
             { name: "Reklam Birimi", state: "app.descriptive", params: {endpoint: "pages", id:146} },
             { name: "Tv Programları Birimi", state: "app.descriptive", params: {endpoint: "pages", id:148} },
-            { name: "Post Prodüksiyon", state: "app.descriptive", params: {endpoint: "pages", id:-1} }
+            { name: "Post Prodüksiyon", state: "app.descriptive", params: {endpoint: "pages", id:766} }
             ] },
         { name: "Ulusal Meslek Standartları", state: "app.descriptive", params: {endpoint: "pages", id:695}, items: [
-            { name: "Reji UMS", state: "app.descriptive", params: {endpoint: "pages", id:-1} },
-            { name: "Kamera Asistanı UMS", state: "app.descriptive", params: {endpoint: "pages", id:-1} },
-            { name: "Kostüm Ekipleri UMS", state: "app.descriptive", params: {endpoint: "pages", id:-1} },
-            { name: "Sanat Yönetmeni UMS", state: "app.descriptive", params: {endpoint: "pages", id:-1} },
-            { name: "Yönetmen (Film) UMS", state: "app.descriptive", params: {endpoint: "pages", id:-1} }
+            { name: "Reji UMS", state: "app.descriptive", params: {endpoint: "pages", id:668} },
+            { name: "Kamera Asistanı UMS", state: "app.descriptive", params: {endpoint: "pages", id:703} },
+            { name: "Kostüm Ekipleri UMS", state: "app.descriptive", params: {endpoint: "pages", id:747} },
+            { name: "Sanat Yönetmeni UMS", state: "app.descriptive", params: {endpoint: "pages", id:736} },
+            { name: "Yönetmen (Film) UMS", state: "app.descriptive", params: {endpoint: "pages", id:727} }
             ] }
         ];
     
