@@ -35,7 +35,16 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
     $scope.$on('$destroy', function () {
         $scope.popover.remove();
     });
-    $scope.user = $scope.$parent.AuthService.currentUser;
+    var user = $scope.$parent.AuthService.currentUser;
+    $scope.user = [
+        { key:"Adı Soyadı" , val: user.adi+' '+user.soyadi},
+        { key:"Üye Numarası" , val: user.uye_no},
+        { key:"Telefon" , val: user.telefon},
+        { key:"E-mail" , val: user.email},
+        { key:"Ödeme Tipi" , val: user.odeme.tipi},
+        { key:"Birim" , val: user.birim},
+        { key:"Tutar" , val: user.tutar}    
+    ]
     
     
 };

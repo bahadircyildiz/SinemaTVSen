@@ -28,8 +28,9 @@
             <ion-list>
                 <div ng-repeat="group in menuGroups">
                     <ion-item class="item-stable"
-                            ng-class="{active: isGroupShown(group)}">
-                        <span ng-click="goto(group)">{{group.name}}</span>
+                            ng-class="{active: isGroupShown(group)}"
+                            ng-click="goto(group)">
+                        <span>{{group.name}}</span>
                         <i class="icon item-note" ng-click="toggleGroup(group)" ng-if="group.items" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
                     </ion-item>
                     <ion-item nav-clear menu-close class="item-accordion"

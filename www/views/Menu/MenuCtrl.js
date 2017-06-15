@@ -11,7 +11,7 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
     };
     
     var menuGroups = [
-        { name: "Yayın Akışı", state: "app.dashboard"},
+        { name: "Güncel Haberler", state: "app.dashboard"},
         { name: "Sinema Tv Sendikası", state: "app.descriptive", params: {endpoint: "pages", id:333}, items: [
             { name: "Sendikamız", state: "app.descriptive", params: {endpoint: "pages", id:112} },
             { name: "Biz Kimiz", state: "app.descriptive", params: {endpoint: "pages", id:114} },
@@ -38,8 +38,12 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
             { name: "Kostüm Ekipleri UMS", state: "app.descriptive", params: {endpoint: "pages", id:747} },
             { name: "Sanat Yönetmeni UMS", state: "app.descriptive", params: {endpoint: "pages", id:736} },
             { name: "Yönetmen (Film) UMS", state: "app.descriptive", params: {endpoint: "pages", id:727} }
-            ] }
-        ];
+            ] },
+        { name: "Üyelik", state: "app.descriptive", params: {endpoint: "pages", id:218}, items: [
+            { name: "Başvuru Formu", state: "app.descriptive", params: {endpoint: "pages", id:529} },
+            ] },
+        { name: "Sözleşmeler", state: "app.descriptive", params: {endpoint: "pages", id:769} }
+    ];
     
     var loginMenuGroup = { name:"Giriş", state: "login" };
     
