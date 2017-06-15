@@ -69032,7 +69032,7 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
     };
     
     var menuGroups = [
-        { name: "Yayın Akışı", state: "app.dashboard"},
+        { name: "Güncel Haberler", state: "app.dashboard"},
         { name: "Sinema Tv Sendikası", state: "app.descriptive", params: {endpoint: "pages", id:333}, items: [
             { name: "Sendikamız", state: "app.descriptive", params: {endpoint: "pages", id:112} },
             { name: "Biz Kimiz", state: "app.descriptive", params: {endpoint: "pages", id:114} },
@@ -69051,20 +69051,25 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
             { name: "Dizi Birimi", state: "app.descriptive", params: {endpoint: "pages", id:144} },
             { name: "Reklam Birimi", state: "app.descriptive", params: {endpoint: "pages", id:146} },
             { name: "Tv Programları Birimi", state: "app.descriptive", params: {endpoint: "pages", id:148} },
-            { name: "Post Prodüksiyon", state: "app.descriptive", params: {endpoint: "pages", id:-1} }
+            { name: "Post Prodüksiyon", state: "app.descriptive", params: {endpoint: "pages", id:766} }
             ] },
         { name: "Ulusal Meslek Standartları", state: "app.descriptive", params: {endpoint: "pages", id:695}, items: [
-            { name: "Reji UMS", state: "app.descriptive", params: {endpoint: "pages", id:-1} },
-            { name: "Kamera Asistanı UMS", state: "app.descriptive", params: {endpoint: "pages", id:-1} },
-            { name: "Kostüm Ekipleri UMS", state: "app.descriptive", params: {endpoint: "pages", id:-1} },
-            { name: "Sanat Yönetmeni UMS", state: "app.descriptive", params: {endpoint: "pages", id:-1} },
-            { name: "Yönetmen (Film) UMS", state: "app.descriptive", params: {endpoint: "pages", id:-1} }
-            ] }
-        ];
+            { name: "Reji UMS", state: "app.descriptive", params: {endpoint: "pages", id:668} },
+            { name: "Kamera Asistanı UMS", state: "app.descriptive", params: {endpoint: "pages", id:703} },
+            { name: "Kostüm Ekipleri UMS", state: "app.descriptive", params: {endpoint: "pages", id:747} },
+            { name: "Sanat Yönetmeni UMS", state: "app.descriptive", params: {endpoint: "pages", id:736} },
+            { name: "Yönetmen (Film) UMS", state: "app.descriptive", params: {endpoint: "pages", id:727} }
+            ] },
+        { name: "Üyelik", state: "app.descriptive", params: {endpoint: "pages", id:218}, items: [
+            { name: "Başvuru Formu", state: "app.descriptive", params: {endpoint: "pages", id:529} },
+            ] },
+        { name: "Sözleşmeler", state: "app.descriptive", params: {endpoint: "pages", id:769} }
+    ];
     
     var loginMenuGroup = { name:"Giriş", state: "login" };
     
-    $scope.toggleGroup = function(group) {
+    $scope.toggleGroup = function(group, event) {
+        event.stopPropagation();
         if ($scope.isGroupShown(group)) {
             $scope.shownGroup = null;
         } else {
@@ -102889,7 +102894,16 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
     $scope.$on('$destroy', function () {
         $scope.popover.remove();
     });
-    $scope.user = $scope.$parent.AuthService.currentUser;
+    var user = $scope.$parent.AuthService.currentUser;
+    $scope.user = [
+        { key:"Adı Soyadı" , val: user.adi+' '+user.soyadi},
+        { key:"Üye Numarası" , val: user.uye_no},
+        { key:"Telefon" , val: user.telefon},
+        { key:"E-mail" , val: user.email},
+        { key:"Ödeme Tipi" , val: user.odeme.tipi},
+        { key:"Birim" , val: user.birim},
+        { key:"Tutar" , val: user.tutar}    
+    ]
     
     
 };

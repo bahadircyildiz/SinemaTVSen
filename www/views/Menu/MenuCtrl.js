@@ -47,7 +47,8 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
     
     var loginMenuGroup = { name:"Giriş", state: "login" };
     
-    $scope.toggleGroup = function(group) {
+    $scope.toggleGroup = function(group, event) {
+        event.stopPropagation();
         if ($scope.isGroupShown(group)) {
             $scope.shownGroup = null;
         } else {
