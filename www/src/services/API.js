@@ -84,9 +84,10 @@ var API = function(app){
                 return $http.get(this.geocoding+"?latlng="+lat+","+lng+"&sensor=true");
             },
             responseAlert : function(res){
+                var statusText = res.status == -1 ? "Sunucuya Ulaşılamadı." : res.statusText; 
                 return $ionicPopup.alert({
                     title: "Hata Kodu: "+res.status,
-                    template: res.statusText
+                    template: statusText
                 })
             }
         }
