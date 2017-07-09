@@ -68856,9 +68856,10 @@ var API = function(app){
                 return $http.get(this.geocoding+"?latlng="+lat+","+lng+"&sensor=true");
             },
             responseAlert : function(res){
+                var statusText = res.status == -1 ? "Sunucuya Ulaşılamadı." : res.statusText; 
                 return $ionicPopup.alert({
                     title: "Hata Kodu: "+res.status,
-                    template: res.statusText
+                    template: statusText
                 })
             }
         }
@@ -102900,7 +102901,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
         { key:"Üye Numarası" , val: user.uye_no},
         { key:"Telefon" , val: user.telefon},
         { key:"E-mail" , val: user.email},
-        { key:"Ödeme Tipi" , val: user.odeme.tipi},
+        { key:"Ödeme Tipi" , val: user.odeme_tipi},
         { key:"Birim" , val: user.birim},
         { key:"Tutar" , val: user.tutar}    
     ]

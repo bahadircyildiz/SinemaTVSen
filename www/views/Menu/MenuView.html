@@ -31,7 +31,11 @@
                             ng-class="{active: isGroupShown(group)}"
                             ng-click="goto(group)">
                         <span>{{group.name}}</span>
-                        <i class="icon item-note" ng-click="toggleGroup(group, $event)" ng-if="group.items" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+                        <div class="item-note" ng-click="toggleGroup(group, $event)" ng-if="group.items" style="width:20px;height:20px;">
+                            <center>
+                                <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>    
+                            </center>
+                        </div>
                     </ion-item>
                     <ion-item nav-clear menu-close class="item-accordion"
                             ng-repeat="item in group.items"
