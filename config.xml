@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.sinematvsen.mobil" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Sinema Televizyon Sendikası Mobil</name>
-  <description>&#xD;
-        Sinema Televizyon Sendikası üyeleri için hızlı iletişim ve bilgi kaynağı olması amacıyla hazırlanmıştır.&#xD;
+<widget id="com.sinematvsen.mobil" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Sinema TV Sendikası App</name>
+  <description>&#xD;&#xD;
+        Sinema Televizyon Sendikası üyeleri için hızlı iletişim ve bilgi kaynağı olması amacıyla hazırlanmıştır.&#xD;&#xD;
   </description>
-  <author email="mail@bahadircyildiz.com" href="http://bahadircyildiz.com/">&#xD;
-      Bahadır Can Yıldız&#xD;
+  <author email="mail@bahadircyildiz.com" href="http://bahadircyildiz.com/">&#xD;&#xD;
+      Bahadır Can Yıldız&#xD;&#xD;
   </author>
   <content src="index.html"/>
   <access origin="*"/>
