@@ -41,7 +41,7 @@ var API = function(app){
                 doc.innerHTML = val.content.rendered;
                 
                 //Seperating Images
-                var images = doc.querySelectorAll('.aviaccordion-spacer, .aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img');
+                var images = doc.querySelectorAll('.aviaccordion-spacer, .aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img, .avia-layerslider');
                 var avia_content = [];
                 images.forEach(function(elem, index){
                     if(elem.attributes.src) avia_content.push(elem.attributes.src.value);
