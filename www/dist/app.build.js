@@ -181,6 +181,8 @@ document.addEventListener('deviceready', function () {
   // Enable to debug issues.
   // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
   
+  navigator.splashscreen.hide();
+
   var notificationOpenedCallback = function(jsonData) {
     console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
   };
@@ -102676,7 +102678,7 @@ app.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
-
+        
         if (window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
