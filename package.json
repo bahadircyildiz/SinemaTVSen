@@ -46,9 +46,9 @@
             "cordova-plugin-statusbar": {},
             "cordova-plugin-device": {},
             "ionic-plugin-keyboard": {},
-            "onesignal-cordova-plugin": {},
             "cordova-plugin-inappbrowser": {},
-            "cordova-plugin-splashscreen": {}
+            "cordova-plugin-splashscreen": {},
+            "onesignal-cordova-plugin": {}
         }
     }
 }
