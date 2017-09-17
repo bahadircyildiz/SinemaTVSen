@@ -20,7 +20,6 @@
         "gulp-sass": "^2.0.4",
         "ionic-plugin-keyboard": "^2.2.1",
         "ng-table": "^3.0.1",
-        "onesignal-cordova-plugin": "^2.2.0",
         "xlsx": "^0.8.7"
     },
     "devDependencies": {
@@ -44,8 +43,7 @@
             "cordova-plugin-device": {},
             "ionic-plugin-keyboard": {},
             "cordova-plugin-inappbrowser": {},
-            "cordova-plugin-splashscreen": {},
-            "onesignal-cordova-plugin": {}
+            "cordova-plugin-splashscreen": {}
         }
     }
 }
