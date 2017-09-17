@@ -21,3 +21,7 @@ document.addEventListener('deviceready', function () {
   // This improves the effectiveness of OneSignal's "best-time" notification scheduling feature.
   // window.plugins.OneSignal.syncHashedEmail(userEmail);
 }, false);
+
+window.onerror = function (errorMsg, url, lineNumber) {
+  alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
+}
