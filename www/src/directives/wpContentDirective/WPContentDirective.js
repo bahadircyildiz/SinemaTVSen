@@ -24,7 +24,9 @@ var WPContentDirective = function(app){
         
         //Modifying Slide Elements
         var slideContent = doc.querySelectorAll(".aviaccordion, .avia-gallery");
-        $scope.slideArray = [];
+		$scope.slideArray = [];
+		
+		$scope.images = [{src:'leeroy'}]
         for(var i=0; i < slideContent.length ; i++){
           var slideImages = slideContent[i].getElementsByTagName('img'), slideImageArray = [];
           for(var j=0; j < slideImages.length ; j++){
@@ -33,8 +35,10 @@ var WPContentDirective = function(app){
           };
           $scope.slideArray.push(slideImageArray);
           var newSlider = sliderTemplate(i);
-          slideContent[i].parentNode.replaceChild(newSlider, slideContent[i]);
-          $compile(newSlider)($scope);
+		  slideContent[i].parentNode.replaceChild(newSlider, slideContent[i]);
+		  console.log(newSlider)
+		  var a = $compile(newSlider)($scope);
+		  console.log(a)
         }
 
         //Modifying Image Elements
