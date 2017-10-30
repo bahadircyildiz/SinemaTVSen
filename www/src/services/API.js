@@ -39,7 +39,7 @@ var API = function(app){
             wpBeautifyContent: function(val){
                 var doc = document.createElement('div');
                 doc.innerHTML = val.content.rendered;
-                
+
                 //Seperating Images
                 var images = doc.querySelectorAll('.aviaccordion-spacer, .aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img, .avia-layerslider');
                 var avia_content = [];
@@ -58,13 +58,29 @@ var API = function(app){
                 //Modifying Links
                 var links = doc.getElementsByTagName('a');
                 for(var x=0; x < links.length; x++){
-                    var href = links[x].getAttribute('href');
-                    links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes'); return false;");
-                    links[x].removeAttribute('href');
+                    var images = links[x].getElementsByTagName("img");
+                    if(images.length > 1){
+                        var newDiv = document.createElement("div");
+                        images.forEach(function(img) {
+                            var src = img.getAttribute('src');
+                            img.setAttribute('ng-click', "API.FullScreenImage("+src+")");
+                            img.setAttribute('ng-src', src);
+                            img.removeAttribute('src');
+                            newDiv.appendChild(img);
+                        }, this);
+                        links[x].parentNode.replaceChild(newDiv);
+                    } else {
+                        var href = links[x].getAttribute('href');
+                        links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom'); return false;");
+                        links[x].removeAttribute('href');
+                    }
                 }
                 
                 val.content.rendered = $sce.trustAsHtml(doc.innerHTML);
                 val.title.rendered = $sce.trustAsHtml(val.title.rendered);
+            },
+            FullScreenImage: function(img){
+                return FullScreenImage.showImageUrl(img);
             },
             request: function (endpoint, params) {
                 return $http({

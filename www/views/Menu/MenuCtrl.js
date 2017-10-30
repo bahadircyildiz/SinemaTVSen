@@ -45,7 +45,7 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
         { name: "Sözleşmeler", state: "app.descriptive", params: {endpoint: "pages", id:769} }
     ];
     
-    var loginMenuGroup = { name:"Giriş", state: "login" };
+    var loginMenuGroup = { name:"Üye Girişi", state: "app.login" };
     
     $scope.toggleGroup = function(group, event) {
         event.stopPropagation();
@@ -88,7 +88,7 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
             loginMenuGroup = { name: AuthService.name(), state: "app.loggedin"};
         } 
         else {
-            loginMenuGroup = { name:"Giriş", state: "app.login" };
+            loginMenuGroup = { name:"Üye Girişi", state: "app.login" };
         }
         menuGroups.push(loginMenuGroup);
         $scope.menuGroups = menuGroups;   

@@ -22,6 +22,6 @@ document.addEventListener('deviceready', function () {
   // window.plugins.OneSignal.syncHashedEmail(userEmail);
 }, false);
 
-window.onerror = function (errorMsg, url, lineNumber) {
-  alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
-}
+// window.onerror = function (errorMsg, url, lineNumber) {
+//   alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
+// }

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "www/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -78,7 +78,7 @@ module.exports = function(app){
         url: '/app',
         abstract: true,
         templateUrl: 'views/Menu/MenuView.html',
-        controller: __webpack_require__(15)
+        controller: __webpack_require__(18)
     })
 
     .state('app.dashboard', {
@@ -87,7 +87,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Dashboard/DashboardView.html',
-                controller: __webpack_require__(11)
+                controller: __webpack_require__(14)
             }
         }
     })
@@ -96,7 +96,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Descriptive/DescriptiveView.html',
-                controller: __webpack_require__(12)
+                controller: __webpack_require__(15)
             }
         },
         params:{
@@ -109,7 +109,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Login/LoginView.html',
-                controller: __webpack_require__(14)
+                controller: __webpack_require__(17)
             }
         }
     })
@@ -118,7 +118,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Verify/VerifyView.html',
-                controller: __webpack_require__(18)
+                controller: __webpack_require__(21)
             }
         },
         params:{
@@ -131,7 +131,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/LoggedIn/LoggedInView.html',
-                controller: __webpack_require__(13)
+                controller: __webpack_require__(16)
             }
         }
     })
@@ -140,7 +140,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/UserInfo/UserInfoView.html',
-                controller: __webpack_require__(17)
+                controller: __webpack_require__(20)
             }
         }
     })
@@ -149,7 +149,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Aidat/AidatView.html',
-                controller: __webpack_require__(10)
+                controller: __webpack_require__(13)
             }
         }
     })
@@ -158,7 +158,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Sikayet/SikayetView.html',
-                controller: __webpack_require__(16)
+                controller: __webpack_require__(19)
             }
         }
     })
@@ -174,8 +174,17 @@ module.exports = function(app){
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = function(app){
+    __webpack_require__(10)(app);
+    __webpack_require__(9)(app);
+}
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(7);
 __webpack_require__(6);
-__webpack_require__(5);
 
 document.addEventListener('deviceready', function () {
 
@@ -198,21 +207,21 @@ document.addEventListener('deviceready', function () {
   // window.plugins.OneSignal.syncHashedEmail(userEmail);
 }, false);
 
-window.onerror = function (errorMsg, url, lineNumber) {
-  alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
-}
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = function(app){
-    __webpack_require__(8)(app);
-    __webpack_require__(9)(app);
-}
+// window.onerror = function (errorMsg, url, lineNumber) {
+//   alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
+// }
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = function(app){
+    __webpack_require__(11)(app);
+    __webpack_require__(12)(app);
+}
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 /**
@@ -34106,20 +34115,20 @@ $provide.value("$locale", {
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(3);
+__webpack_require__(4);
 module.exports = angular;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory((function webpackLoadOptionalExternalModule() { try { return __webpack_require__(4); } catch(e) {} }()));
+		module.exports = factory((function webpackLoadOptionalExternalModule() { try { return __webpack_require__(5); } catch(e) {} }()));
 	else if(typeof define === 'function' && define.amd)
 		define(["angular"], factory);
 	else if(typeof exports === 'object')
@@ -35077,7 +35086,7 @@ return /******/ (function(modules) { // webpackBootstrap
 //# sourceMappingURL=ionic.material.min.js.map
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 /*!
@@ -102665,7 +102674,7 @@ IonicModule
 })();
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Ionic Starter App
@@ -102674,7 +102683,7 @@ IonicModule
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 
-__webpack_require__(1);
+__webpack_require__(2);
 
 var app = angular.module('sinematvsen', ['ionic-material']);
 
@@ -102682,7 +102691,7 @@ app.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
-        
+
         if (window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
@@ -102691,13 +102700,150 @@ app.run(function ($ionicPlatform) {
         }
     });
 })
+__webpack_require__(1)(app);
 
 __webpack_require__(0)(app);
 
-__webpack_require__(2)(app);
+__webpack_require__(3)(app);
+
+
 
 /***/ }),
-/* 8 */
+/* 9 */
+/***/ (function(module, exports) {
+
+var imageScrollDirective = function(app){
+  app.directive('imageScroll',  [ '$compile', function(compile){
+    return {
+      restrict: 'E',
+      // replace: true,
+      template: '<div>' +
+                    // '<ion-scroll direction="x">' +
+                        '<img ng-repeat="image in images track by $index" ng-src="{{image.src}}" ng-click="showImages($index)" class="image-list-thumb"/>' +
+                    // '</ion-scroll>' +
+                '</div>',
+      scope: {
+        images: "="
+      },
+      link: function(scope,element,attrs){
+        console.log("imageScroll Linked, scope:", scope);
+      },
+      controller: function($scope, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
+        $scope.zoomMin = 1;
+
+        $scope.showImages = function(index, slideIndex) {
+          $scope.activeSlide = index;
+          $scope.showModal('src/directives/imageScrollDirective/slideModalTemplate.html', slideIndex);
+        };
+        
+        $scope.showModal = function(templateUrl) {
+          $ionicModal.fromTemplateUrl(templateUrl, {
+            scope: $scope
+          }).then(function(modal) {
+            $scope.modal = modal;
+            $scope.modal.show();
+          });
+        }
+        
+        $scope.closeModal = function() {
+          $scope.modal.hide();
+          $scope.modal.remove()
+        };
+        
+        $scope.updateSlideStatus = function(slide) {
+          var zoomFactor = $ionicScrollDelegate.$getByHandle('scrollHandle' + slide).getScrollPosition().zoom;
+          if (zoomFactor == $scope.zoomMin) {
+            $ionicSlideBoxDelegate.enableSlide(true);
+          } else {
+            $ionicSlideBoxDelegate.enableSlide(false);
+          }
+        };
+        console.log($scope.images);
+      }
+    }
+  }]);
+}
+
+module.exports = imageScrollDirective;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+var WPContentDirective = function(app){
+  app.directive('wpContent', function(){
+    return {
+      restrict: 'E',
+      // replace: true,
+      scope: {
+        data: "=",
+      },
+      link: function (scope, element, attrs){
+        console.log("wpDirective Linked");
+      },
+      templateUrl: "src/directives/wpContentDirective/wpContentTemplate.html",
+      controller: function($scope, $compile, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
+
+        function sliderTemplate(slideIndex){
+          var DOMText = '<image-scroll images="slideArray['+slideIndex+']"></image-scroll>';
+          var tempDiv = document.createElement("div");
+          tempDiv.innerHTML = DOMText;
+          return tempDiv.firstChild;
+        }
+
+        var doc = document.createElement('div');
+        doc.innerHTML = $scope.data.content.rendered;
+        
+        //Modifying Slide Elements
+        var slideContent = doc.querySelectorAll(".aviaccordion, .avia-gallery");
+        $scope.slideArray = [];
+        for(var i=0; i < slideContent.length ; i++){
+          var slideImages = slideContent[i].getElementsByTagName('img'), slideImageArray = [];
+          for(var j=0; j < slideImages.length ; j++){
+            var imgSrc = slideImages[j].getAttribute("src");
+            slideImageArray.push({ src: imgSrc});
+          };
+          $scope.slideArray.push(slideImageArray);
+          var newSlider = sliderTemplate(i);
+          slideContent[i].parentNode.replaceChild(newSlider, slideContent[i]);
+          $compile(newSlider)($scope);
+        }
+
+        //Modifying Image Elements
+        var imageContent = doc.querySelectorAll('.lightbox-added.aligncenter, .avia-image-container');
+        $scope.imageArray = [];
+        for(var i = 0; i < imageContent.length ; i++){
+          var image = imageContent[i].getElementsByTagName('img')[0];
+          var imgSrc = image.getAttribute("src");
+          $scope.imageArray.push({ src: imgSrc});
+          var newImg = "<img ng-src=\"{{imageArray["+i+"].src}}\" ng-click=\"FullScreenImage(imageArray["+i+"].src)\"/>";
+          var tempDiv = document.createElement("div");
+          tempDiv.innerHTML = newImg;
+          newImg = tempDiv.firstChild;
+          imageContent[i].parentNode.replaceChild(newImg, imageContent[i]);
+          $compile(newImg)($scope);
+        };
+        
+        //Modifying Links
+        var links = doc.getElementsByTagName('a');
+        for(var x=0; x < links.length; x++){
+          var href = links[x].getAttribute('href');
+          links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom'); return false;");
+          links[x].removeAttribute('href');
+        }
+        
+        $scope.content = $sce.trustAsHtml(doc.innerHTML);
+        $scope.title = $sce.trustAsHtml($scope.data.title.rendered);
+        $scope.categories = $scope.data.categories.join();
+      }
+    }
+  });
+}
+
+module.exports = WPContentDirective;
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports) {
 
 var API = function(app){
@@ -102741,7 +102887,7 @@ var API = function(app){
             wpBeautifyContent: function(val){
                 var doc = document.createElement('div');
                 doc.innerHTML = val.content.rendered;
-                
+
                 //Seperating Images
                 var images = doc.querySelectorAll('.aviaccordion-spacer, .aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img, .avia-layerslider');
                 var avia_content = [];
@@ -102760,13 +102906,29 @@ var API = function(app){
                 //Modifying Links
                 var links = doc.getElementsByTagName('a');
                 for(var x=0; x < links.length; x++){
-                    var href = links[x].getAttribute('href');
-                    links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes'); return false;");
-                    links[x].removeAttribute('href');
+                    var images = links[x].getElementsByTagName("img");
+                    if(images.length > 1){
+                        var newDiv = document.createElement("div");
+                        images.forEach(function(img) {
+                            var src = img.getAttribute('src');
+                            img.setAttribute('ng-click', "API.FullScreenImage("+src+")");
+                            img.setAttribute('ng-src', src);
+                            img.removeAttribute('src');
+                            newDiv.appendChild(img);
+                        }, this);
+                        links[x].parentNode.replaceChild(newDiv);
+                    } else {
+                        var href = links[x].getAttribute('href');
+                        links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom'); return false;");
+                        links[x].removeAttribute('href');
+                    }
                 }
                 
                 val.content.rendered = $sce.trustAsHtml(doc.innerHTML);
                 val.title.rendered = $sce.trustAsHtml(val.title.rendered);
+            },
+            FullScreenImage: function(img){
+                return FullScreenImage.showImageUrl(img);
             },
             request: function (endpoint, params) {
                 return $http({
@@ -102799,7 +102961,7 @@ var API = function(app){
 module.exports = API;
 
 /***/ }),
-/* 9 */
+/* 12 */
 /***/ (function(module, exports) {
 
 var AuthService = function(app){
@@ -102830,7 +102992,7 @@ var AuthService = function(app){
 module.exports = AuthService;
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
@@ -102879,7 +103041,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
 };
 
 /***/ }),
-/* 11 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API) {
@@ -102965,9 +103127,9 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
     $scope.$parent.loadingShow();
     API.wpRequest('posts').then(function onSuccess(result){
         // $scope.dashboard = onSuccess;
-        result.data.forEach(function(val,index){
-            API.wpBeautifyContent(val);
-        })
+        // result.data.forEach(function(val,index){
+        //     API.wpBeautifyContent(val);
+        // })
         $scope.dashboard = result.data;
         $scope.$parent.loadingHide();
     }, function onError(err){
@@ -102977,7 +103139,7 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
 };
 
 /***/ }),
-/* 12 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $stateParams, API) {
@@ -103061,7 +103223,7 @@ module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxD
 };
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicPopover, $state, $ionicHistory, API) {
@@ -103118,7 +103280,7 @@ module.exports = function ($scope, $ionicPopover, $state, $ionicHistory, API) {
 };
 
 /***/ }),
-/* 14 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicPopover, $timeout, $state, API) {
@@ -103176,7 +103338,7 @@ module.exports = function ($scope, $ionicPopover, $timeout, $state, API) {
 };
 
 /***/ }),
-/* 15 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, $ionicSideMenuDelegate, $ionicPopup, $state, AuthService) {
@@ -103226,7 +103388,7 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
         { name: "Sözleşmeler", state: "app.descriptive", params: {endpoint: "pages", id:769} }
     ];
     
-    var loginMenuGroup = { name:"Giriş", state: "login" };
+    var loginMenuGroup = { name:"Üye Girişi", state: "app.login" };
     
     $scope.toggleGroup = function(group, event) {
         event.stopPropagation();
@@ -103269,7 +103431,7 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
             loginMenuGroup = { name: AuthService.name(), state: "app.loggedin"};
         } 
         else {
-            loginMenuGroup = { name:"Giriş", state: "app.login" };
+            loginMenuGroup = { name:"Üye Girişi", state: "app.login" };
         }
         menuGroups.push(loginMenuGroup);
         $scope.menuGroups = menuGroups;   
@@ -103314,7 +103476,7 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
 };
 
 /***/ }),
-/* 16 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicPopup, $state, API) {
@@ -103385,7 +103547,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicPopup, $sta
 };
 
 /***/ }),
-/* 17 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
@@ -103440,7 +103602,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
 };
 
 /***/ }),
-/* 18 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicModal, $ionicPopover, $stateParams, $ionicHistory, $state, API) {
