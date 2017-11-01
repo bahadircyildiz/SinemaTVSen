@@ -1,5 +1,5 @@
 var WPContentDirective = function(app){
-  app.directive('wpContent', function(){
+  app.directive('wpContent', [ '$compile', function(compile){
     return {
       restrict: 'E',
       // replace: true,
@@ -10,8 +10,7 @@ var WPContentDirective = function(app){
         console.log("wpDirective Linked");
       },
       templateUrl: "src/directives/wpContentDirective/wpContentTemplate.html",
-      controller: function($scope, $compile, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
-
+      controller: function($scope, $element, $compile, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
         function sliderTemplate(slideIndex){
           var DOMText = '<image-scroll images="slideArray['+slideIndex+']"></image-scroll>';
           var tempDiv = document.createElement("div");
@@ -24,9 +23,7 @@ var WPContentDirective = function(app){
         
         //Modifying Slide Elements
         var slideContent = doc.querySelectorAll(".aviaccordion, .avia-gallery");
-		$scope.slideArray = [];
-		
-		$scope.images = [{src:'leeroy'}]
+		    $scope.slideArray = [];
         for(var i=0; i < slideContent.length ; i++){
           var slideImages = slideContent[i].getElementsByTagName('img'), slideImageArray = [];
           for(var j=0; j < slideImages.length ; j++){
@@ -35,10 +32,8 @@ var WPContentDirective = function(app){
           };
           $scope.slideArray.push(slideImageArray);
           var newSlider = sliderTemplate(i);
-		  slideContent[i].parentNode.replaceChild(newSlider, slideContent[i]);
-		  console.log(newSlider)
-		  var a = $compile(newSlider)($scope);
-		  console.log(a)
+          slideContent[i].parentNode.replaceChild(newSlider, slideContent[i]);
+          // $compile(newSlider)($scope);
         }
 
         //Modifying Image Elements
@@ -53,7 +48,7 @@ var WPContentDirective = function(app){
           tempDiv.innerHTML = newImg;
           newImg = tempDiv.firstChild;
           imageContent[i].parentNode.replaceChild(newImg, imageContent[i]);
-          $compile(newImg)($scope);
+          // $compile(newImg)($scope);
         };
         
         //Modifying Links
@@ -64,12 +59,12 @@ var WPContentDirective = function(app){
           links[x].removeAttribute('href');
         }
         
-        $scope.content = $sce.trustAsHtml(doc.innerHTML);
+        $scope.content = doc.innerHTML;
         $scope.title = $sce.trustAsHtml($scope.data.title.rendered);
         $scope.categories = $scope.data.categories.join();
       }
     }
-  });
+  }]);
 }
 
 module.exports = WPContentDirective;

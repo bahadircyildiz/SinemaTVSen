@@ -3,10 +3,10 @@ var imageScrollDirective = function(app){
     return {
       restrict: 'E',
       // replace: true,
-      template: '<div> leeroy_jenkins {{images}}' +
-                    // '<ion-scroll direction="x">' +
+      template: '<div>' +
+                    '<ion-scroll direction="x">' +
                         '<img ng-repeat="image in images track by $index" ng-src="{{image.src}}" ng-click="showImages($index)" class="image-list-thumb"/>' +
-                    // '</ion-scroll>' +
+                    '</ion-scroll>' +
                 '</div>',
       scope: {
         images: "="
@@ -16,7 +16,7 @@ var imageScrollDirective = function(app){
       },
       controller: function($scope, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
         $scope.zoomMin = 1;
-		console.log($scope.images)
+
         $scope.showImages = function(index, slideIndex) {
           $scope.activeSlide = index;
           $scope.showModal('src/directives/imageScrollDirective/slideModalTemplate.html', slideIndex);
@@ -44,7 +44,6 @@ var imageScrollDirective = function(app){
             $ionicSlideBoxDelegate.enableSlide(false);
           }
         };
-        console.log($scope.images);
       }
     }
   }]);
