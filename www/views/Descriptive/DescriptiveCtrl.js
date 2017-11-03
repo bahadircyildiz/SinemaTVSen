@@ -66,8 +66,6 @@ module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxD
     $scope.$parent.loadingShow();
     API.wpRequest($stateParams.endpoint, {id: $stateParams.id}).then(function onSuccess(result){
         // $scope.dashboard = onSuccess;
-        console.log(result);
-        API.wpBeautifyContent(result.data);
         $scope.title = result.data.title.rendered;
         $scope.dashboard = [result.data];
         $scope.$parent.loadingHide();

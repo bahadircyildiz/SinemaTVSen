@@ -2,7 +2,7 @@
     <div class="item item-avatar">
         <img src="img/stvsen.jpg">
         <h2 ng-bind-html="title"></h2>
-        <p><span>{{ categories }} </span></p>
+        <p><span ng-if="categories">{{ categories }} </span></p>
     </div>
     <div class="item item-body">
         <div>

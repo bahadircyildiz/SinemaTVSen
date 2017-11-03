@@ -78,7 +78,7 @@ module.exports = function(app){
         url: '/app',
         abstract: true,
         templateUrl: 'views/Menu/MenuView.html',
-        controller: __webpack_require__(18)
+        controller: __webpack_require__(19)
     })
 
     .state('app.dashboard', {
@@ -87,7 +87,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Dashboard/DashboardView.html',
-                controller: __webpack_require__(14)
+                controller: __webpack_require__(15)
             }
         }
     })
@@ -96,7 +96,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Descriptive/DescriptiveView.html',
-                controller: __webpack_require__(15)
+                controller: __webpack_require__(16)
             }
         },
         params:{
@@ -109,7 +109,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Login/LoginView.html',
-                controller: __webpack_require__(17)
+                controller: __webpack_require__(18)
             }
         }
     })
@@ -118,7 +118,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Verify/VerifyView.html',
-                controller: __webpack_require__(21)
+                controller: __webpack_require__(22)
             }
         },
         params:{
@@ -131,7 +131,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/LoggedIn/LoggedInView.html',
-                controller: __webpack_require__(16)
+                controller: __webpack_require__(17)
             }
         }
     })
@@ -140,7 +140,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/UserInfo/UserInfoView.html',
-                controller: __webpack_require__(20)
+                controller: __webpack_require__(21)
             }
         }
     })
@@ -149,7 +149,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Aidat/AidatView.html',
-                controller: __webpack_require__(13)
+                controller: __webpack_require__(14)
             }
         }
     })
@@ -158,7 +158,7 @@ module.exports = function(app){
         views: {
             'menuContent': {
                 templateUrl: 'views/Sikayet/SikayetView.html',
-                controller: __webpack_require__(19)
+                controller: __webpack_require__(20)
             }
         }
     })
@@ -175,6 +175,7 @@ module.exports = function(app){
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function(app){
+    __webpack_require__(11)(app);
     __webpack_require__(10)(app);
     __webpack_require__(9)(app);
 }
@@ -216,8 +217,8 @@ document.addEventListener('deviceready', function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function(app){
-    __webpack_require__(11)(app);
     __webpack_require__(12)(app);
+    __webpack_require__(13)(app);
 }
 
 /***/ }),
@@ -102712,16 +102713,49 @@ __webpack_require__(3)(app);
 /* 9 */
 /***/ (function(module, exports) {
 
+var compileDirective = function(app){
+    app.directive('compile', ['$compile', function ($compile) {
+        return function(scope, element, attrs) {
+            var ensureCompileRunsOnce = scope.$watch(
+              function(scope) {
+                 // watch the 'compile' expression for changes
+                return scope.$eval(attrs.compile);
+              },
+              function(value) {
+                // when the 'compile' expression changes
+                // assign it into the current DOM
+                element.html(value);
+  
+                // compile the new DOM and link it to the current
+                // scope.
+                // NOTE: we only compile .childNodes so that
+                // we don't get into infinite loop compiling ourselves
+                $compile(element.contents())(scope);
+  
+                // Use un-watch feature to ensure compilation happens only once.
+                ensureCompileRunsOnce();
+              }
+            );
+        };
+    }]);
+  }
+  
+  module.exports = compileDirective;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
 var imageScrollDirective = function(app){
   app.directive('imageScroll',  [ '$compile', function(compile){
     return {
       restrict: 'E',
-      // replace: true,
-      template: '<div>' +
-                    // '<ion-scroll direction="x">' +
+      replace: true,
+      template: '<a class="item item-list-detail">' + 
+                    '<ion-scroll overflow-scroll="false" direction="x">' +
                         '<img ng-repeat="image in images track by $index" ng-src="{{image.src}}" ng-click="showImages($index)" class="image-list-thumb"/>' +
-                    // '</ion-scroll>' +
-                '</div>',
+                    '</ion-scroll>' +
+                '</a>',
       scope: {
         images: "="
       },
@@ -102758,7 +102792,6 @@ var imageScrollDirective = function(app){
             $ionicSlideBoxDelegate.enableSlide(false);
           }
         };
-        console.log($scope.images);
       }
     }
   }]);
@@ -102767,22 +102800,68 @@ var imageScrollDirective = function(app){
 module.exports = imageScrollDirective;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 var WPContentDirective = function(app){
-  app.directive('wpContent', function(){
+  app.directive('wpContent', [ '$compile', function(compile){
     return {
       restrict: 'E',
-      // replace: true,
+      replace: true,
       scope: {
         data: "=",
       },
       link: function (scope, element, attrs){
+        //Compiling prepared html to scope
+
+        var targetElem = element[0].children[1].children[0];
+        console.log(element);
+        targetElem.innerHTML = scope.content;
+        compile(targetElem)(scope);
         console.log("wpDirective Linked");
       },
       templateUrl: "src/directives/wpContentDirective/wpContentTemplate.html",
-      controller: function($scope, $compile, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
+      controller: function($scope, $element, $compile, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
+        $scope.FullScreenImage = function(src){
+          // return window.FullScreenImage.showImageURL(src);
+          // return window.open(src, '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom');
+        }
+
+        $ionicModal.fromTemplateUrl('src/directives/wpContentDirective/imageModalTemplate.html', {
+          scope: $scope,
+          animation: 'slide-in-up'
+        }).then(function(modal) {
+          $scope.modal = modal;
+        });
+
+        $scope.openModal = function() {
+          $scope.modal.show();
+        };
+    
+        $scope.closeModal = function() {
+          $scope.modal.hide();
+        };
+    
+        //Cleanup the modal when we're done with it!
+        $scope.$on('$destroy', function() {
+          $scope.modal.remove();
+        });
+        // Execute action on hide modal
+        $scope.$on('modal.hide', function() {
+          // Execute action
+        });
+        // Execute action on remove modal
+        $scope.$on('modal.removed', function() {
+          // Execute action
+        });
+        $scope.$on('modal.shown', function() {
+          console.log('Modal is shown!');
+        });
+
+        $scope.showImage = function(src) {
+          $scope.imgSrc = src;
+          $scope.openModal();
+        }
 
         function sliderTemplate(slideIndex){
           var DOMText = '<image-scroll images="slideArray['+slideIndex+']"></image-scroll>';
@@ -102791,59 +102870,73 @@ var WPContentDirective = function(app){
           return tempDiv.firstChild;
         }
 
-        var doc = document.createElement('div');
-        doc.innerHTML = $scope.data.content.rendered;
-        
-        //Modifying Slide Elements
-        var slideContent = doc.querySelectorAll(".aviaccordion, .avia-gallery");
-        $scope.slideArray = [];
-        for(var i=0; i < slideContent.length ; i++){
-          var slideImages = slideContent[i].getElementsByTagName('img'), slideImageArray = [];
-          for(var j=0; j < slideImages.length ; j++){
-            var imgSrc = slideImages[j].getAttribute("src");
-            slideImageArray.push({ src: imgSrc});
+        function compileWPContent(){
+          var doc = document.createElement('div');
+          doc.innerHTML = $scope.data.content.rendered;
+          
+          //Modifying Slide Elements
+          var slideContent = doc.querySelectorAll(".aviaccordion, .avia-gallery");
+          $scope.slideArray = [];
+          for(var i=0; i < slideContent.length ; i++){
+            var slideImages = slideContent[i].getElementsByTagName('img'), slideImageArray = [];
+            for(var j=0; j < slideImages.length ; j++){
+              var imgSrc = slideImages[j].getAttribute("src");
+              slideImageArray.push({ src: imgSrc});
+            };
+            $scope.slideArray.push(slideImageArray);
+            var newSlider = sliderTemplate(i);
+            slideContent[i].parentNode.replaceChild(newSlider, slideContent[i]);
+          }
+  
+          //Modifying Image Elements
+          var imageContent = doc.querySelectorAll('.lightbox-added.aligncenter, .avia-image-container, a img');
+          $scope.imageArray = [];
+          for(var i = 0; i < imageContent.length ; i++){
+            var currentElement;
+            if(imageContent[i].children.length == 0){
+              currentElement = imageContent[i].parentNode;
+            } else {
+              currentElement = imageContent[i];
+            }
+            var image = currentElement.getElementsByTagName('img')[0];
+            var imgSrc = image.getAttribute("src");
+            $scope.imageArray.push({ src: imgSrc});
+            var newImg = "<img class=\"wp-img\" ng-src=\"{{imageArray["+i+"].src}}\" ng-click=\"showImage(imageArray["+i+"].src)\"/>";
+            var tempDiv = document.createElement("div");
+            tempDiv.innerHTML = newImg;
+            newImg = tempDiv.firstChild;
+            currentElement.parentNode.replaceChild(newImg, currentElement);
           };
-          $scope.slideArray.push(slideImageArray);
-          var newSlider = sliderTemplate(i);
-          slideContent[i].parentNode.replaceChild(newSlider, slideContent[i]);
-          $compile(newSlider)($scope);
+          
+          //Modifying Links
+          var links = doc.getElementsByTagName('a');
+          for(var x=0; x < links.length; x++){
+            var href = links[x].getAttribute('href');
+            links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom'); return false;");
+            links[x].removeAttribute('href');
+          }
+  
+          $scope.content = doc.innerHTML;
+          $scope.title = $sce.trustAsHtml($scope.data.title.rendered);
+          if($scope.data.categories){
+            $scope.categories = $scope.data.categories;
+            $scope.categories.forEach(function(cat, index) {
+              $scope.categories[index] = $scope.$parent.categories[cat];
+            });
+            $scope.categories = $scope.categories.join(", ");
+          }
         }
 
-        //Modifying Image Elements
-        var imageContent = doc.querySelectorAll('.lightbox-added.aligncenter, .avia-image-container');
-        $scope.imageArray = [];
-        for(var i = 0; i < imageContent.length ; i++){
-          var image = imageContent[i].getElementsByTagName('img')[0];
-          var imgSrc = image.getAttribute("src");
-          $scope.imageArray.push({ src: imgSrc});
-          var newImg = "<img ng-src=\"{{imageArray["+i+"].src}}\" ng-click=\"FullScreenImage(imageArray["+i+"].src)\"/>";
-          var tempDiv = document.createElement("div");
-          tempDiv.innerHTML = newImg;
-          newImg = tempDiv.firstChild;
-          imageContent[i].parentNode.replaceChild(newImg, imageContent[i]);
-          $compile(newImg)($scope);
-        };
-        
-        //Modifying Links
-        var links = doc.getElementsByTagName('a');
-        for(var x=0; x < links.length; x++){
-          var href = links[x].getAttribute('href');
-          links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom'); return false;");
-          links[x].removeAttribute('href');
-        }
-        
-        $scope.content = $sce.trustAsHtml(doc.innerHTML);
-        $scope.title = $sce.trustAsHtml($scope.data.title.rendered);
-        $scope.categories = $scope.data.categories.join();
+        compileWPContent();
       }
     }
-  });
+  }]);
 }
 
 module.exports = WPContentDirective;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 var API = function(app){
@@ -102961,7 +103054,7 @@ var API = function(app){
 module.exports = API;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 var AuthService = function(app){
@@ -102992,7 +103085,7 @@ var AuthService = function(app){
 module.exports = AuthService;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
@@ -103041,7 +103134,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
 };
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API) {
@@ -103126,10 +103219,6 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
     
     $scope.$parent.loadingShow();
     API.wpRequest('posts').then(function onSuccess(result){
-        // $scope.dashboard = onSuccess;
-        // result.data.forEach(function(val,index){
-        //     API.wpBeautifyContent(val);
-        // })
         $scope.dashboard = result.data;
         $scope.$parent.loadingHide();
     }, function onError(err){
@@ -103139,7 +103228,7 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
 };
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $stateParams, API) {
@@ -103210,8 +103299,6 @@ module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxD
     $scope.$parent.loadingShow();
     API.wpRequest($stateParams.endpoint, {id: $stateParams.id}).then(function onSuccess(result){
         // $scope.dashboard = onSuccess;
-        console.log(result);
-        API.wpBeautifyContent(result.data);
         $scope.title = result.data.title.rendered;
         $scope.dashboard = [result.data];
         $scope.$parent.loadingHide();
@@ -103223,7 +103310,7 @@ module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxD
 };
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicPopover, $state, $ionicHistory, API) {
@@ -103280,7 +103367,7 @@ module.exports = function ($scope, $ionicPopover, $state, $ionicHistory, API) {
 };
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicPopover, $timeout, $state, API) {
@@ -103338,7 +103425,7 @@ module.exports = function ($scope, $ionicPopover, $timeout, $state, API) {
 };
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, $ionicSideMenuDelegate, $ionicPopup, $state, AuthService) {
@@ -103476,7 +103563,7 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
 };
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicPopup, $state, API) {
@@ -103547,7 +103634,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicPopup, $sta
 };
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
@@ -103602,7 +103689,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
 };
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = function ($scope, $ionicModal, $ionicPopover, $stateParams, $ionicHistory, $state, API) {

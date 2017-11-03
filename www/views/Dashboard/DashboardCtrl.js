@@ -80,10 +80,6 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
     
     $scope.$parent.loadingShow();
     API.wpRequest('posts').then(function onSuccess(result){
-        // $scope.dashboard = onSuccess;
-        // result.data.forEach(function(val,index){
-        //     API.wpBeautifyContent(val);
-        // })
         $scope.dashboard = result.data;
         $scope.$parent.loadingHide();
     }, function onError(err){

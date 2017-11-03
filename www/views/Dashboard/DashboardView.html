@@ -2,23 +2,6 @@
     <ion-content class="im-wrapper">
         <div ng-repeat="d in dashboard">
             <wp-content data="d"></wp-content>
-            <!-- <div class="list card stable-bg">
-                <div class="item item-avatar">
-                    <img src="img/stvsen.jpg">
-                    <h2 ng-bind-html="d.title.rendered"></h2>
-                    <p><span>{{ d.categories.join() }} </span></p>
-                </div>
-                <div class="item item-body">
-                    <wp-content wp-data="d"></wp-content>
-                    <div class="avia_content" ng-if="d.avia_content">
-                        <ion-slides options="options" slider="data.slider">
-                            <ion-slide-page ng-repeat="s in d.avia_content">
-                                <img ng-src="{{s}}">
-                            </ion-slide-page>
-                        </ion-slides>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </ion-content>
 </ion-view>
