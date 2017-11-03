@@ -2,12 +2,12 @@ var imageScrollDirective = function(app){
   app.directive('imageScroll',  [ '$compile', function(compile){
     return {
       restrict: 'E',
-      // replace: true,
-      template: '<div>' +
-                    '<ion-scroll direction="x">' +
+      replace: true,
+      template: '<a class="item item-list-detail">' + 
+                    '<ion-scroll overflow-scroll="false" direction="x">' +
                         '<img ng-repeat="image in images track by $index" ng-src="{{image.src}}" ng-click="showImages($index)" class="image-list-thumb"/>' +
                     '</ion-scroll>' +
-                '</div>',
+                '</a>',
       scope: {
         images: "="
       },

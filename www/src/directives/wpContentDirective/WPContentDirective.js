@@ -2,15 +2,23 @@ var WPContentDirective = function(app){
   app.directive('wpContent', [ '$compile', function(compile){
     return {
       restrict: 'E',
-      // replace: true,
+      replace: true,
       scope: {
         data: "=",
       },
       link: function (scope, element, attrs){
+        var targetElem = element[0].children[1].children[0];
+        console.log(element);
+        targetElem.innerHTML = scope.content;
+        compile(targetElem)(scope);
         console.log("wpDirective Linked");
       },
       templateUrl: "src/directives/wpContentDirective/wpContentTemplate.html",
       controller: function($scope, $element, $compile, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
+        $scope.FullScreenImage = function(src){
+          return window.FullScreenImage.showImageURL(src);
+        }
+
         function sliderTemplate(slideIndex){
           var DOMText = '<image-scroll images="slideArray['+slideIndex+']"></image-scroll>';
           var tempDiv = document.createElement("div");
@@ -37,17 +45,23 @@ var WPContentDirective = function(app){
         }
 
         //Modifying Image Elements
-        var imageContent = doc.querySelectorAll('.lightbox-added.aligncenter, .avia-image-container');
+        var imageContent = doc.querySelectorAll('.lightbox-added.aligncenter, .avia-image-container, a img');
         $scope.imageArray = [];
         for(var i = 0; i < imageContent.length ; i++){
-          var image = imageContent[i].getElementsByTagName('img')[0];
+          var currentElement;
+          if(imageContent[i].children.length == 0){
+            currentElement = imageContent[i].parentNode;
+          } else {
+            currentElement = imageContent[i];
+          }
+          var image = currentElement.getElementsByTagName('img')[0];
           var imgSrc = image.getAttribute("src");
           $scope.imageArray.push({ src: imgSrc});
-          var newImg = "<img ng-src=\"{{imageArray["+i+"].src}}\" ng-click=\"FullScreenImage(imageArray["+i+"].src)\"/>";
+          var newImg = "<img class=\"wp-img\" ng-src=\"{{imageArray["+i+"].src}}\" ng-click=\"FullScreenImage(imageArray["+i+"].src)\"/>";
           var tempDiv = document.createElement("div");
           tempDiv.innerHTML = newImg;
           newImg = tempDiv.firstChild;
-          imageContent[i].parentNode.replaceChild(newImg, imageContent[i]);
+          currentElement.parentNode.replaceChild(newImg, currentElement);
           // $compile(newImg)($scope);
         };
         
@@ -58,7 +72,7 @@ var WPContentDirective = function(app){
           links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom'); return false;");
           links[x].removeAttribute('href');
         }
-        
+
         $scope.content = doc.innerHTML;
         $scope.title = $sce.trustAsHtml($scope.data.title.rendered);
         $scope.categories = $scope.data.categories.join();

@@ -257,7 +257,8 @@ p {
 
 .image-list-thumb {
     padding: 2px 2px 2px 2px;
-    height: 150px;
+    /* height: 150px; */
+    display: inline !important;
 }
  
 .image-modal {
