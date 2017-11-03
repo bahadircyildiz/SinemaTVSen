@@ -1,5 +1,5 @@
 var imageScrollDirective = function(app){
-  app.directive('imageScroll',  [ '$compile', function(compile){
+  app.directive('imageScroll',  function(){
     return {
       restrict: 'E',
       replace: true,
@@ -12,7 +12,7 @@ var imageScrollDirective = function(app){
         images: "="
       },
       link: function(scope,element,attrs){
-        console.log("imageScroll Linked, scope:", scope);
+        console.log("imageScroll Linked");
       },
       controller: function($scope, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
         $scope.zoomMin = 1;
@@ -46,7 +46,7 @@ var imageScrollDirective = function(app){
         };
       }
     }
-  }]);
+  });
 }
 
 module.exports = imageScrollDirective;

@@ -8,18 +8,20 @@ var WPContentDirective = function(app){
       },
       link: function (scope, element, attrs){
         //Compiling prepared html to scope
-
         var targetElem = element[0].children[1].children[0];
-        console.log(element);
         targetElem.innerHTML = scope.content;
         compile(targetElem)(scope);
         console.log("wpDirective Linked");
       },
       templateUrl: "src/directives/wpContentDirective/wpContentTemplate.html",
-      controller: function($scope, $element, $compile, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
+      controller: function($scope, $window, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
         $scope.FullScreenImage = function(src){
           // return window.FullScreenImage.showImageURL(src);
           // return window.open(src, '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom');
+        }
+
+        $scope.openLink = function(src){
+          cordova.InAppBrowser.open(src, '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom');
         }
 
         $ionicModal.fromTemplateUrl('src/directives/wpContentDirective/imageModalTemplate.html', {
@@ -107,7 +109,7 @@ var WPContentDirective = function(app){
           var links = doc.getElementsByTagName('a');
           for(var x=0; x < links.length; x++){
             var href = links[x].getAttribute('href');
-            links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom'); return false;");
+            links[x].setAttribute('ng-click', "openLink('"+href+"')");
             links[x].removeAttribute('href');
           }
   

@@ -196,7 +196,7 @@ document.addEventListener('deviceready', function () {
 
   if(window.plugins.OneSignal){
     // Enable to debug issues.
-    window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+    // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
     window.plugins.OneSignal
     .startInit("fdf274f5-d601-4b3f-acb0-475a246e317e")
     .handleNotificationOpened(notificationOpenedCallback)
@@ -102747,7 +102747,7 @@ var compileDirective = function(app){
 /***/ (function(module, exports) {
 
 var imageScrollDirective = function(app){
-  app.directive('imageScroll',  [ '$compile', function(compile){
+  app.directive('imageScroll',  function(){
     return {
       restrict: 'E',
       replace: true,
@@ -102760,7 +102760,7 @@ var imageScrollDirective = function(app){
         images: "="
       },
       link: function(scope,element,attrs){
-        console.log("imageScroll Linked, scope:", scope);
+        console.log("imageScroll Linked");
       },
       controller: function($scope, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
         $scope.zoomMin = 1;
@@ -102794,7 +102794,7 @@ var imageScrollDirective = function(app){
         };
       }
     }
-  }]);
+  });
 }
 
 module.exports = imageScrollDirective;
@@ -102813,18 +102813,20 @@ var WPContentDirective = function(app){
       },
       link: function (scope, element, attrs){
         //Compiling prepared html to scope
-
         var targetElem = element[0].children[1].children[0];
-        console.log(element);
         targetElem.innerHTML = scope.content;
         compile(targetElem)(scope);
         console.log("wpDirective Linked");
       },
       templateUrl: "src/directives/wpContentDirective/wpContentTemplate.html",
-      controller: function($scope, $element, $compile, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
+      controller: function($scope, $window, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
         $scope.FullScreenImage = function(src){
           // return window.FullScreenImage.showImageURL(src);
           // return window.open(src, '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom');
+        }
+
+        $scope.openLink = function(src){
+          cordova.InAppBrowser.open(src, '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom');
         }
 
         $ionicModal.fromTemplateUrl('src/directives/wpContentDirective/imageModalTemplate.html', {
@@ -102912,7 +102914,7 @@ var WPContentDirective = function(app){
           var links = doc.getElementsByTagName('a');
           for(var x=0; x < links.length; x++){
             var href = links[x].getAttribute('href');
-            links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom'); return false;");
+            links[x].setAttribute('ng-click', "openLink('"+href+"')");
             links[x].removeAttribute('href');
           }
   

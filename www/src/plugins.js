@@ -10,7 +10,7 @@ document.addEventListener('deviceready', function () {
 
   if(window.plugins.OneSignal){
     // Enable to debug issues.
-    window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+    // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
     window.plugins.OneSignal
     .startInit("fdf274f5-d601-4b3f-acb0-475a246e317e")
     .handleNotificationOpened(notificationOpenedCallback)
