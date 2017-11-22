@@ -26,7 +26,6 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
     var uye_no = $scope.$parent.AuthService.currentUser.uye_no;
     
     $scope.get_debt = function(){
-        console.log('Submitted! ' + uye_no);
         API.request('UserHandler/get_debt', { uye_no: uye_no }).then(
             function(onSuccess){
                 if(onSuccess){

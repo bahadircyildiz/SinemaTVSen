@@ -8,17 +8,12 @@ var WPContentDirective = function(app){
       },
       link: function (scope, element, attrs){
         //Compiling prepared html to scope
-        var targetElem = element[0].children[1].children[0];
+        var targetElem = element[0].children[1];
         targetElem.innerHTML = scope.content;
         compile(targetElem)(scope);
-        console.log("wpDirective Linked");
       },
       templateUrl: "src/directives/wpContentDirective/wpContentTemplate.html",
-      controller: function($scope, $window, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
-        $scope.FullScreenImage = function(src){
-          // return window.FullScreenImage.showImageURL(src);
-          // return window.open(src, '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom');
-        }
+      controller: function($scope, $window, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate, API){
 
         $scope.openLink = function(src){
           cordova.InAppBrowser.open(src, '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom');
@@ -72,7 +67,8 @@ var WPContentDirective = function(app){
           doc.innerHTML = $scope.data.content.rendered;
           
           //Modifying Slide Elements
-          var slideContent = doc.querySelectorAll(".aviaccordion, .avia-gallery");
+          var slideContent = doc.querySelectorAll(".aviaccordion, .avia-gallery, .av-masonry-gallery");
+          // var slideContent = doc.querySelectorAll(settings.slideElements);    
           $scope.slideArray = [];
           for(var i=0; i < slideContent.length ; i++){
             var slideImages = slideContent[i].getElementsByTagName('img'), slideImageArray = [];
@@ -86,7 +82,8 @@ var WPContentDirective = function(app){
           }
   
           //Modifying Image Elements
-          var imageContent = doc.querySelectorAll('.lightbox-added.aligncenter, .avia-image-container, a img');
+          var imageContent = doc.querySelectorAll('.lightbox-added.aligncenter, .avia-image-container, a img, .avia-bg-style-scroll');
+          // var imageContent = doc.querySelectorAll(settings.imageElements);          
           $scope.imageArray = [];
           for(var i = 0; i < imageContent.length ; i++){
             var currentElement;
@@ -95,8 +92,12 @@ var WPContentDirective = function(app){
             } else {
               currentElement = imageContent[i];
             }
-            var image = currentElement.getElementsByTagName('img')[0];
-            var imgSrc = image.getAttribute("src");
+            var imgSrc, image = currentElement.getElementsByTagName('img')[0];
+            if(image == null){
+              imgSrc = currentElement.style.backgroundImage.slice(5, -2);
+            } else {
+              imgSrc = image.getAttribute("src");
+            }
             $scope.imageArray.push({ src: imgSrc});
             var newImg = "<img class=\"wp-img\" ng-src=\"{{imageArray["+i+"].src}}\" ng-click=\"showImage(imageArray["+i+"].src)\"/>";
             var tempDiv = document.createElement("div");
@@ -107,12 +108,20 @@ var WPContentDirective = function(app){
           
           //Modifying Links
           var links = doc.getElementsByTagName('a');
+          // var links = doc.getElementsByTagName(settings.linkElements);          
           for(var x=0; x < links.length; x++){
             var href = links[x].getAttribute('href');
             links[x].setAttribute('ng-click', "openLink('"+href+"')");
             links[x].removeAttribute('href');
           }
-  
+
+          //Clean empty space
+          var emptySpaceContent = doc.querySelectorAll(".avia-layerslider, .avia-google-map-container, span.hidden");
+          // var emptySpaceContent = doc.querySelectorAll(settings.emptyElements); 
+          for(var i=0; i < emptySpaceContent.length ; i++){
+            emptySpaceContent[i].parentNode.removeChild(emptySpaceContent[i]);
+          }
+
           $scope.content = doc.innerHTML;
           $scope.title = $sce.trustAsHtml($scope.data.title.rendered);
           if($scope.data.categories){
@@ -123,8 +132,14 @@ var WPContentDirective = function(app){
             $scope.categories = $scope.categories.join(", ");
           }
         }
-
+        // API.request("Settings_API").then(function onSuccess(result){
+        //   console.log(result);
+        //   compileWPContent();
+        // }, function onError(result){
+        //   API.responseAlert(result);
+        // })
         compileWPContent();
+
       }
     }
   }]);

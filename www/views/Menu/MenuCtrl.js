@@ -1,4 +1,4 @@
-module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, $ionicSideMenuDelegate, $ionicPopup, $state, AuthService) {
+module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, $ionicSideMenuDelegate, $ionicPopup, $state, AuthService, API) {
     // Form data for the login modal
 
     $scope.loadingShow = function(text = "<ion-spinner></ion-spinner>") {
@@ -93,7 +93,7 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
         menuGroups.push(loginMenuGroup);
         $scope.menuGroups = menuGroups;   
     }
-    
+
     $scope.refreshStatus();
     
     var navIcons = document.getElementsByClassName('ion-navicon') ? document.getElementsByClassName('ion-navicon') : false;

@@ -44,6 +44,10 @@ var imageScrollDirective = function(app){
             $ionicSlideBoxDelegate.enableSlide(false);
           }
         };
+
+        $scope.$on("scroll.infiniteScrollComplete", function(event){
+          $ionicScrollDelegate.resize();
+        })
       }
     }
   });

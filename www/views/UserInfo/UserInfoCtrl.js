@@ -43,7 +43,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
         { key:"E-mail" , val: user.email},
         { key:"Ödeme Tipi" , val: user.odeme_tipi},
         { key:"Birim" , val: user.birim},
-        { key:"Tutar" , val: user.tutar}    
+        { key:"Tutar" , val: user.tutar+" TL"}    
     ]
     
     

@@ -1,4 +1,4 @@
-module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API) {
+module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API, $ionicScrollDelegate) {
     // Form data for the login modal
 
     // var navIcons = document.getElementsByClassName('ion-navicon');
@@ -64,7 +64,7 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
     $scope.enableSideMenu = function(){
         $ionicSideMenuDelegate.canDragContent(true);
     }
-    
+
     
     API.wpRequest('categories').then(function onSuccess(result){
         var categories = {};
@@ -77,13 +77,21 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
         console.log(err);
     })
     
-    
-    $scope.$parent.loadingShow();
-    API.wpRequest('posts').then(function onSuccess(result){
-        $scope.dashboard = result.data;
-        $scope.$parent.loadingHide();
-    }, function onError(err){
-        console.log(err);    
-    })
+    var page = 1, totalPages;
+    $scope.dashboard = [];
+    $scope.loadmore = true;
+
+    $scope.loadContent = function(){
+        API.wpRequest('posts', {page: page}).then(function onSuccess(result){
+            $scope.dashboard = $scope.dashboard.concat(result.data);
+            var totalPages = result.headers("X-WP-TotalPages");
+            page++;
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+            if(page>2)$scope.loadmore = page<totalPages;
+        }, function onError(err){
+            console.log(err);    
+        })
+    }
+
     
 };

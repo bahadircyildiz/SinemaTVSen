@@ -8,7 +8,9 @@
   },
   "scripts": {
     "devserver": "webpack-dev-server",
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "webpack": "webpack",
+    "ionic": "ionic"
   },
   "dependencies": {
     "angular": "^1.6.4",
@@ -34,10 +36,12 @@
   },
   "devDependencies": {
     "bower": "^1.8.2",
+    "cordova": "^7.1.0",
     "cordova-config": "^0.7.0",
     "gulp-cli": "^1.4.0",
     "gulp-less": "^3.3.0",
     "gulp-util": "^2.2.14",
+    "ionic": "^3.19.0",
     "node-sass": "^4.5.0",
     "sass-loader": "^6.0.1",
     "shelljs": "^0.3.0",

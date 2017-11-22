@@ -1,9 +1,21 @@
 <ion-view view-title="Aidat Ödemelerim">
     <ion-content class="im-wrapper">
-        <div class="row" ng-repeat="l in aidatList">
-            <div class="col">{{l.aidat_yili}}</div>
-            <div class="col">{{l.aidat_ayi}}</div>
-            <div class="col">Odenmedi</div>
+        <div class="card">
+            <div class="row" ng-repeat="l in aidatList">
+                    <div class="col">{{l.aidat_yili}}</div>
+                    <div class="col">{{l.aidat_ayi}}</div>
+                    <div class="col">Ödenmedi</div>
+            </div>
+        </div>
+        <div class="card" ng-if="!aidatList.length>0">
+            <div class="item item-text-wrap">
+              Ödenmemiş aidatınız bulunmamaktadır.
+            </div>
+        </div>
+        <div class="card">
+            <div class="item item-text-wrap">
+                <p><span>Not:</span> Veriler bir önceki aya aittir.</p>
+            </div>
         </div>
     </ion-content>
 </ion-view>

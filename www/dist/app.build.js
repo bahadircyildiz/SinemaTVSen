@@ -102792,6 +102792,10 @@ var imageScrollDirective = function(app){
             $ionicSlideBoxDelegate.enableSlide(false);
           }
         };
+
+        $scope.$on("scroll.infiniteScrollComplete", function(event){
+          $ionicScrollDelegate.resize();
+        })
       }
     }
   });
@@ -102813,17 +102817,12 @@ var WPContentDirective = function(app){
       },
       link: function (scope, element, attrs){
         //Compiling prepared html to scope
-        var targetElem = element[0].children[1].children[0];
+        var targetElem = element[0].children[1];
         targetElem.innerHTML = scope.content;
         compile(targetElem)(scope);
-        console.log("wpDirective Linked");
       },
       templateUrl: "src/directives/wpContentDirective/wpContentTemplate.html",
-      controller: function($scope, $window, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate){
-        $scope.FullScreenImage = function(src){
-          // return window.FullScreenImage.showImageURL(src);
-          // return window.open(src, '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom');
-        }
+      controller: function($scope, $window, $sce, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate, API){
 
         $scope.openLink = function(src){
           cordova.InAppBrowser.open(src, '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom');
@@ -102877,7 +102876,8 @@ var WPContentDirective = function(app){
           doc.innerHTML = $scope.data.content.rendered;
           
           //Modifying Slide Elements
-          var slideContent = doc.querySelectorAll(".aviaccordion, .avia-gallery");
+          var slideContent = doc.querySelectorAll(".aviaccordion, .avia-gallery, .av-masonry-gallery");
+          // var slideContent = doc.querySelectorAll(settings.slideElements);    
           $scope.slideArray = [];
           for(var i=0; i < slideContent.length ; i++){
             var slideImages = slideContent[i].getElementsByTagName('img'), slideImageArray = [];
@@ -102891,7 +102891,8 @@ var WPContentDirective = function(app){
           }
   
           //Modifying Image Elements
-          var imageContent = doc.querySelectorAll('.lightbox-added.aligncenter, .avia-image-container, a img');
+          var imageContent = doc.querySelectorAll('.lightbox-added.aligncenter, .avia-image-container, a img, .avia-bg-style-scroll');
+          // var imageContent = doc.querySelectorAll(settings.imageElements);          
           $scope.imageArray = [];
           for(var i = 0; i < imageContent.length ; i++){
             var currentElement;
@@ -102900,8 +102901,12 @@ var WPContentDirective = function(app){
             } else {
               currentElement = imageContent[i];
             }
-            var image = currentElement.getElementsByTagName('img')[0];
-            var imgSrc = image.getAttribute("src");
+            var imgSrc, image = currentElement.getElementsByTagName('img')[0];
+            if(image == null){
+              imgSrc = currentElement.style.backgroundImage.slice(5, -2);
+            } else {
+              imgSrc = image.getAttribute("src");
+            }
             $scope.imageArray.push({ src: imgSrc});
             var newImg = "<img class=\"wp-img\" ng-src=\"{{imageArray["+i+"].src}}\" ng-click=\"showImage(imageArray["+i+"].src)\"/>";
             var tempDiv = document.createElement("div");
@@ -102912,12 +102917,20 @@ var WPContentDirective = function(app){
           
           //Modifying Links
           var links = doc.getElementsByTagName('a');
+          // var links = doc.getElementsByTagName(settings.linkElements);          
           for(var x=0; x < links.length; x++){
             var href = links[x].getAttribute('href');
             links[x].setAttribute('ng-click', "openLink('"+href+"')");
             links[x].removeAttribute('href');
           }
-  
+
+          //Clean empty space
+          var emptySpaceContent = doc.querySelectorAll(".avia-layerslider, .avia-google-map-container, span.hidden");
+          // var emptySpaceContent = doc.querySelectorAll(settings.emptyElements); 
+          for(var i=0; i < emptySpaceContent.length ; i++){
+            emptySpaceContent[i].parentNode.removeChild(emptySpaceContent[i]);
+          }
+
           $scope.content = doc.innerHTML;
           $scope.title = $sce.trustAsHtml($scope.data.title.rendered);
           if($scope.data.categories){
@@ -102928,8 +102941,14 @@ var WPContentDirective = function(app){
             $scope.categories = $scope.categories.join(", ");
           }
         }
-
+        // API.request("Settings_API").then(function onSuccess(result){
+        //   console.log(result);
+        //   compileWPContent();
+        // }, function onError(result){
+        //   API.responseAlert(result);
+        // })
         compileWPContent();
+
       }
     }
   }]);
@@ -102942,90 +102961,17 @@ module.exports = WPContentDirective;
 /***/ (function(module, exports) {
 
 var API = function(app){
-    app.factory('API', ['$http', '$ionicPopup', '$q','$window','$sce', function($http, $ionicPopup, $q, $window, $sce){
+    app.factory('API', ['$http', '$ionicPopup', function($http, $ionicPopup){
         return {
             home: "https://backend.sinematvsendikasi.org/",
-            // geocoding: "http://maps.googleapis.com/maps/api/geocode/json",
             wphome: 'https://www.sinematvsendikasi.org/',
-            sendExcel: function(file){
-                var deferred = $q.defer();
-                if(file){
-                    var form = new FormData();
-                    form.append("spreadsheet", file);
-                    var request = new XMLHttpRequest();
-                    request.open("POST", this.home+"ExcelHandler/parse_excel");
-                    request.send(form);
-                    request.onload = function(result){
-                        // console.log(request.responseText, "Sent your file and uplaoded! HOPEFULLY");
-                        deferred.resolve(request.responseText);
-                    }
-                }
-                return deferred.promise;
-            },
-            saveSecret: function(secret){
-                $window.localStorage.setItem("loginsecret", secret);
-            },
-            getSecret: function(){
-                return $window.localStorage.getItem("loginsecret");
-            },
-            wpRequest: function(endpoint, params = {id: ''}){
-                var methodList = {
-                    posts: "GET",
-                    categories: "GET",
-                    pages: "GET"
-                };
-                return $http({
-                    url: this.wphome+'wp-json/wp/v2/'+endpoint+'/'+params.id,
-                    method: methodList[endpoint] 
-                })
-            },
-            wpBeautifyContent: function(val){
-                var doc = document.createElement('div');
-                doc.innerHTML = val.content.rendered;
-
-                //Seperating Images
-                var images = doc.querySelectorAll('.aviaccordion-spacer, .aviaccordion-image, img[data-avia-tooltip], .av-masonry-image-container img, .avia-layerslider');
-                var avia_content = [];
-                images.forEach(function(elem, index){
-                    if(elem.attributes.src) avia_content.push(elem.attributes.src.value);
-                });
-                if (avia_content.length != 0) {
-                    val.avia_content = avia_content;
-                    for (var j = images.length-1; j >= 0; j--) {
-                        if (images[j].parentNode) {
-                            images[j].parentNode.removeChild(images[j]);
-                        }
-                    }
-                }
-                
-                //Modifying Links
-                var links = doc.getElementsByTagName('a');
-                for(var x=0; x < links.length; x++){
-                    var images = links[x].getElementsByTagName("img");
-                    if(images.length > 1){
-                        var newDiv = document.createElement("div");
-                        images.forEach(function(img) {
-                            var src = img.getAttribute('src');
-                            img.setAttribute('ng-click', "API.FullScreenImage("+src+")");
-                            img.setAttribute('ng-src', src);
-                            img.removeAttribute('src');
-                            newDiv.appendChild(img);
-                        }, this);
-                        links[x].parentNode.replaceChild(newDiv);
-                    } else {
-                        var href = links[x].getAttribute('href');
-                        links[x].setAttribute('onclick', "window.open('"+href+"', '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom'); return false;");
-                        links[x].removeAttribute('href');
-                    }
-                }
-                
-                val.content.rendered = $sce.trustAsHtml(doc.innerHTML);
-                val.title.rendered = $sce.trustAsHtml(val.title.rendered);
-            },
-            FullScreenImage: function(img){
-                return FullScreenImage.showImageUrl(img);
-            },
-            request: function (endpoint, params) {
+            // saveSecret: function(secret){
+            //     $window.localStorage.setItem("loginsecret", secret);
+            // },
+            // getSecret: function(){
+            //     return $window.localStorage.getItem("loginsecret");
+            // },
+            request: function (endpoint, params = {}) {
                 return $http({
                     url:this.home+endpoint, 
                     data: params,
@@ -103038,9 +102984,21 @@ var API = function(app){
                     },
                     method: 'POST'})
             },
-            mapReq: function(lat,lng){
-                //params: latlng:"{{lat}},{{lng}}", sensor:true
-                return $http.get(this.geocoding+"?latlng="+lat+","+lng+"&sensor=true");
+            wpRequest: function(endpoint, params = {}){
+                if(!params.id) params.id = "";
+                var methodList = {
+                    posts: "GET",
+                    categories: "GET",
+                    pages: "GET"
+                };
+                return $http({
+                    url: this.wphome+'wp-json/wp/v2/'+endpoint+"/"+params.id,
+                    params: params,
+                    method: methodList[endpoint] 
+                })
+            },
+            FullScreenImage: function(img){
+                return FullScreenImage.showImageUrl(img);
             },
             responseAlert : function(res){
                 var statusText = res.status == -1 ? "Sunucuya Ulaşılamadı." : res.statusText; 
@@ -103118,7 +103076,6 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
     var uye_no = $scope.$parent.AuthService.currentUser.uye_no;
     
     $scope.get_debt = function(){
-        console.log('Submitted! ' + uye_no);
         API.request('UserHandler/get_debt', { uye_no: uye_no }).then(
             function(onSuccess){
                 if(onSuccess){
@@ -103139,7 +103096,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API) {
+module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $timeout, API, $ionicScrollDelegate) {
     // Form data for the login modal
 
     // var navIcons = document.getElementsByClassName('ion-navicon');
@@ -103205,7 +103162,7 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
     $scope.enableSideMenu = function(){
         $ionicSideMenuDelegate.canDragContent(true);
     }
-    
+
     
     API.wpRequest('categories').then(function onSuccess(result){
         var categories = {};
@@ -103218,14 +103175,22 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
         console.log(err);
     })
     
-    
-    $scope.$parent.loadingShow();
-    API.wpRequest('posts').then(function onSuccess(result){
-        $scope.dashboard = result.data;
-        $scope.$parent.loadingHide();
-    }, function onError(err){
-        console.log(err);    
-    })
+    var page = 1, totalPages;
+    $scope.dashboard = [];
+    $scope.loadmore = true;
+
+    $scope.loadContent = function(){
+        API.wpRequest('posts', {page: page}).then(function onSuccess(result){
+            $scope.dashboard = $scope.dashboard.concat(result.data);
+            var totalPages = result.headers("X-WP-TotalPages");
+            page++;
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+            if(page>2)$scope.loadmore = page<totalPages;
+        }, function onError(err){
+            console.log(err);    
+        })
+    }
+
     
 };
 
@@ -103233,7 +103198,7 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $stateParams, API) {
+module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $stateParams) {
     // .fromTemplate() method
     var template = '<ion-popover-view>' +
                     '   <ion-header-bar>' +
@@ -103301,6 +103266,7 @@ module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxD
     $scope.$parent.loadingShow();
     API.wpRequest($stateParams.endpoint, {id: $stateParams.id}).then(function onSuccess(result){
         // $scope.dashboard = onSuccess;
+        console.log($stateParams, result);
         $scope.title = result.data.title.rendered;
         $scope.dashboard = [result.data];
         $scope.$parent.loadingHide();
@@ -103430,7 +103396,7 @@ module.exports = function ($scope, $ionicPopover, $timeout, $state, API) {
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, $ionicSideMenuDelegate, $ionicPopup, $state, AuthService) {
+module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, $ionicSideMenuDelegate, $ionicPopup, $state, AuthService, API) {
     // Form data for the login modal
 
     $scope.loadingShow = function(text = "<ion-spinner></ion-spinner>") {
@@ -103525,7 +103491,7 @@ module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, 
         menuGroups.push(loginMenuGroup);
         $scope.menuGroups = menuGroups;   
     }
-    
+
     $scope.refreshStatus();
     
     var navIcons = document.getElementsByClassName('ion-navicon') ? document.getElementsByClassName('ion-navicon') : false;
@@ -103684,7 +103650,7 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $timeout, API) {
         { key:"E-mail" , val: user.email},
         { key:"Ödeme Tipi" , val: user.odeme_tipi},
         { key:"Birim" , val: user.birim},
-        { key:"Tutar" , val: user.tutar}    
+        { key:"Tutar" , val: user.tutar+" TL"}    
     ]
     
     

@@ -1,4 +1,4 @@
-module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $stateParams, API) {
+module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $stateParams) {
     // .fromTemplate() method
     var template = '<ion-popover-view>' +
                     '   <ion-header-bar>' +
@@ -66,6 +66,7 @@ module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxD
     $scope.$parent.loadingShow();
     API.wpRequest($stateParams.endpoint, {id: $stateParams.id}).then(function onSuccess(result){
         // $scope.dashboard = onSuccess;
+        console.log($stateParams, result);
         $scope.title = result.data.title.rendered;
         $scope.dashboard = [result.data];
         $scope.$parent.loadingHide();

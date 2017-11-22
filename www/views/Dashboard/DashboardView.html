@@ -1,7 +1,10 @@
 <ion-view view-title="Güncel Haberler">
     <ion-content class="im-wrapper">
-        <div ng-repeat="d in dashboard">
-            <wp-content data="d"></wp-content>
-        </div>
+        <wp-content ng-repeat="d in dashboard" data="d"></wp-content>
+        <ion-infinite-scroll    ng-if="loadmore"
+                                distance="10%"
+                                on-infinite="loadContent()">
+        </ion-infinite-scroll>
+      </ion-refresher>
     </ion-content>
 </ion-view>
