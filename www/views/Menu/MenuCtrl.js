@@ -1,4 +1,4 @@
-module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, $ionicSideMenuDelegate, $ionicPopup, $state, AuthService, API) {
+module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, $ionicSideMenuDelegate, $ionicPopup, $state, AuthService) {
     // Form data for the login modal
 
     $scope.loadingShow = function(text = "<ion-spinner></ion-spinner>") {

@@ -116,7 +116,7 @@ var WPContentDirective = function(app){
           }
 
           //Clean empty space
-          var emptySpaceContent = doc.querySelectorAll(".avia-layerslider, .avia-google-map-container, span.hidden");
+          var emptySpaceContent = doc.querySelectorAll(".avia-layerslider, .avia-google-map-container, span.hidden, .avia_codeblock_section");
           // var emptySpaceContent = doc.querySelectorAll(settings.emptyElements); 
           for(var i=0; i < emptySpaceContent.length ; i++){
             emptySpaceContent[i].parentNode.removeChild(emptySpaceContent[i]);

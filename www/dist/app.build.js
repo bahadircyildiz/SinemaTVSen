@@ -102925,7 +102925,7 @@ var WPContentDirective = function(app){
           }
 
           //Clean empty space
-          var emptySpaceContent = doc.querySelectorAll(".avia-layerslider, .avia-google-map-container, span.hidden");
+          var emptySpaceContent = doc.querySelectorAll(".avia-layerslider, .avia-google-map-container, span.hidden, .avia_codeblock_section");
           // var emptySpaceContent = doc.querySelectorAll(settings.emptyElements); 
           for(var i=0; i < emptySpaceContent.length ; i++){
             emptySpaceContent[i].parentNode.removeChild(emptySpaceContent[i]);
@@ -103198,7 +103198,7 @@ module.exports = function ($scope, $ionicLoading, $ionicModal, $ionicPopover, $i
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $stateParams) {
+module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $stateParams, API) {
     // .fromTemplate() method
     var template = '<ion-popover-view>' +
                     '   <ion-header-bar>' +
@@ -103266,7 +103266,6 @@ module.exports = function ($scope, $ionicLoading, $ionicPopover, $ionicSlideBoxD
     $scope.$parent.loadingShow();
     API.wpRequest($stateParams.endpoint, {id: $stateParams.id}).then(function onSuccess(result){
         // $scope.dashboard = onSuccess;
-        console.log($stateParams, result);
         $scope.title = result.data.title.rendered;
         $scope.dashboard = [result.data];
         $scope.$parent.loadingHide();
@@ -103396,7 +103395,7 @@ module.exports = function ($scope, $ionicPopover, $timeout, $state, API) {
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, $ionicSideMenuDelegate, $ionicPopup, $state, AuthService, API) {
+module.exports = function ($scope, $ionicHistory, $ionicPopover, $ionicLoading, $ionicSideMenuDelegate, $ionicPopup, $state, AuthService) {
     // Form data for the login modal
 
     $scope.loadingShow = function(text = "<ion-spinner></ion-spinner>") {
