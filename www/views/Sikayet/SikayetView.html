@@ -1,6 +1,10 @@
 <ion-view view-title="Şikayet Menüsü">
     <ion-content class="im-wrapper">
         <div class="list">
+            <label class="item item-input item-floating-label">
+                    <span class="input-label">İçerik</span>
+                    <textarea rows="5" type="text" ng-model="formData.icerik" placeholder="İçerik"></textarea>
+            </label>
             <label class="item item-input item-select">
                 <span class="input-label">Konu</span>
                 <input type="text" ng-model="konu">
@@ -9,13 +13,7 @@
                         ng-init="formData.tipi = sikayetList[0].name"
                         ng-model="formData.tipi"></select>
             </label>
-            <label class="item item-input item-floating-label">
-                <span class="input-label">İçerik</span>
-                <textarea rows="5" type="text" ng-model="formData.icerik" placeholder="İçerik"></textarea>
-            </label>
-            
             <br />
-            
             <li class="item item-toggle">
                 <span class="input-label">Kişisel Bilgilerimi Gizle</span>
                 <label class="toggle toggle-positive">
