@@ -81,4 +81,32 @@ gulp.task("webpack-dev-server", function(callback) {
     });
 });
 
+gulp.task("android-sign-build", function(callback){
+  var prompt = require("prompt");
+  var sign = require("android-sign");
+  var schema = {
+    properties: {
+      alias: {
+        pattern: /^[a-zA-Z\s\-]+$/,
+        message: 'Name must be only letters, spaces, or dashes',
+        required: true
+      },
+      password: {
+        hidden: true
+      }
+    }
+  };
+  prompt.start();
+  prompt.get(schema, function(err,result){
+    console.log("Signing released app");
+    var isSigned= sign({
+      "apk":"./platforms/android/build/outputs/apk/android-release-unsigned.apk",
+      "signkey": "D:/YandexDisk-bahadircyildiz/my-release-key.keystore",
+      "password" : result.password,
+      "alias" : result.alias,
+      "output" : "./platforms/android/build/outputs/apk/android-release-signed.apk"
+    });
+    if(isSigned) console.log("Signing successful.");
+  })
+});
 

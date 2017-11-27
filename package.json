@@ -10,7 +10,9 @@
     "devserver": "webpack-dev-server",
     "gulp": "gulp",
     "webpack": "webpack",
-    "ionic": "ionic"
+    "ionic": "ionic",
+    "android-release-build": "ionic cordova build --release android",
+    "android-release": "webpack && npm run android-release-build && gulp android-sign-build"
   },
   "dependencies": {
     "angular": "^1.6.4",
@@ -34,6 +36,7 @@
     "xlsx": "^0.8.7"
   },
   "devDependencies": {
+    "android-sign": "0.0.0",
     "bower": "^1.8.2",
     "cordova": "^7.1.0",
     "cordova-config": "^0.7.0",
@@ -42,6 +45,7 @@
     "gulp-util": "^2.2.14",
     "ionic": "^3.19.0",
     "node-sass": "^4.5.0",
+    "prompt": "^1.0.0",
     "sass-loader": "^6.0.1",
     "shelljs": "^0.3.0",
     "webpack": "^2.2.1",
