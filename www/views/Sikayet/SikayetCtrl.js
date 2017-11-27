@@ -49,5 +49,9 @@ module.exports = function ($scope, $ionicModal, $ionicPopover, $ionicPopup, $sta
         )
     }
 
+    $scope.goto = function(url){
+        cordova.InAppBrowser.open(url, '_system', 'location=yes,closebuttoncaption=Kapat,toolbar=yes,toolbarposition=bottom');
+    }
+
     
 };

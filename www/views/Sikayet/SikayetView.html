@@ -1,10 +1,17 @@
 <ion-view view-title="Şikayet Menüsü">
     <ion-content class="im-wrapper">
-        <div class="list">
-            <label class="item item-input item-floating-label">
-                    <span class="input-label">İçerik</span>
-                    <textarea rows="5" type="text" ng-model="formData.icerik" placeholder="İçerik"></textarea>
-            </label>
+        <div class="card" ng-if="!aidatList.length>0">
+            <div class="item item-text-wrap">
+                <p>Değerli üyemiz, fazla mesai, ödeme sorunu ve işten çıkarma gibi sette yaşanan hak ihlalleri ile ilgili olarak hukuk birimimizin denetiminde olan <a ng-click="goto('hukuk@sinematvsendikasi.org')">hukuk@sinematvsendikasi.org</a> adresine mail atmanız gerekmektedir.</p>
+                
+                <p>Çalışma saatlerimiz Pazartesi- Cuma saat <span>10.00 – 18.00</span> arasındadır.</p>
+                
+                <p>Sette yaşanan iş kazaları aciliyet gerektirdiğinden sendikanın, iş kazası öğrenilir öğrenilmez aranmasını rica ederiz.</p>
+                
+                <p>Şikayetleriniz en kısa sürede değerlendirilip size dönüş yapılacaktır.</p>
+            </div>
+        </div>
+        <!-- <div class="list">
             <label class="item item-input item-select">
                 <span class="input-label">Konu</span>
                 <input type="text" ng-model="konu">
@@ -12,6 +19,10 @@
                         ng-options="sikayet.name as sikayet.name for sikayet in sikayetList track by $index"
                         ng-init="formData.tipi = sikayetList[0].name"
                         ng-model="formData.tipi"></select>
+            </label>
+            <label class="item item-input item-floating-label">
+                    <span class="input-label">İçerik</span>
+                    <textarea rows="5" type="text" ng-model="formData.icerik" placeholder="İçerik"></textarea>
             </label>
             <br />
             <li class="item item-toggle">
@@ -23,11 +34,10 @@
                     </div>
                 </label>
             </li>
-            
             <br />
             <button class="button button-block button-positive ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="send_sikayet()">
                 Gönder
-            </button>
+            </button> -->
         </div>
     </ion-content>
 </ion-view>
