@@ -11,8 +11,8 @@
     "gulp": "gulp",
     "webpack": "webpack",
     "ionic": "ionic",
-    "android-release-build": "ionic cordova build --release android",
-    "android-release": "webpack && npm run android-release-build && gulp android-sign-build"
+    "android-release-build": "webpack && ionic cordova build --release android",
+    "android-release": "npm run android-release-build && gulp android-sign-build"
   },
   "dependencies": {
     "angular": "^1.6.4",
